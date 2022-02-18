@@ -14,7 +14,7 @@ import { useAuthState } from 'react-firebase-hooks/auth';
 import { useCollection } from 'react-firebase-hooks/firestore';
 import parse from 'html-react-parser';
 import { ReactElement } from 'react';
-import { Tiptap } from '../components/Tiptap';
+import { Tiptap } from '../components/editor/Tiptap';
 
 const auth = getAuth(firebase);
 
@@ -47,7 +47,7 @@ const Home: NextPage = () => {
 
   return (
     <>
-      {user ? <h1>Hello {user.email}!</h1> : <h1>Hello!</h1>}
+      <h1>SOS Rassismus Barnim</h1>
       {loading ? (
         'loading'
       ) : (
