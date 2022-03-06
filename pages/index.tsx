@@ -12,9 +12,8 @@ import {
 } from 'firebase/firestore';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { useCollection } from 'react-firebase-hooks/firestore';
-import parse from 'html-react-parser';
-import { ReactElement } from 'react';
-import { Tiptap } from '../components/editor/Tiptap';
+import { Tiptap } from '../components/Editor/Tiptap';
+import { Entry, _Entry } from '../components/Entry';
 
 const auth = getAuth(firebase);
 
@@ -54,7 +53,7 @@ const Home: NextPage = () => {
         <>
           {entries
             ? entries.docs.map((entry, index) => {
-                const data = entry.data() as Entry;
+                const data = entry.data() as _Entry;
                 return <Entry key={`${data.id}-${index}`} entry={data} />;
               })
             : null}
@@ -62,29 +61,6 @@ const Home: NextPage = () => {
       )}
       {user && <button onClick={() => addEntry()}>Add Entry!</button>}
       <Tiptap />
-    </>
-  );
-};
-
-type Entry = {
-  id: string;
-  title: string;
-  content: string;
-  date: Timestamp;
-};
-
-type EntryProps = { entry: Entry };
-
-const Entry = ({ entry }: EntryProps): ReactElement => {
-  const dateHR = entry.date
-    ? new Date(entry.date.toDate()).toLocaleDateString('de-DE')
-    : new Date().toLocaleDateString('de-DE');
-
-  return (
-    <>
-      <h2>{entry.title}</h2>
-      {parse(entry.content)}
-      <p>Date: {dateHR}</p>
     </>
   );
 };
