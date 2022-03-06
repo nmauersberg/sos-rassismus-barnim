@@ -1,0 +1,17 @@
+.entry {
+  margin: 0 auto;
+  padding: 1rem;
+  width: 100%;
+  background-color: white;
+  opacity: 1;
+  transition: width 0.75s, background-color 0.5s, opacity 0.75s;
+  transition-timing-function: ease-in-out;
+  border-radius: 15px;
+
+  &.notInView {
+    width: 95%;
+    opacity: 0;
+    background-color: salmon;
+    margin: 0 auto;
+  }
+}
