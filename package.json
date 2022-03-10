@@ -11,6 +11,7 @@
   "dependencies": {
     "@tiptap/react": "^2.0.0-beta.108",
     "@tiptap/starter-kit": "^2.0.0-beta.183",
+    "anima-react": "^0.0.3",
     "classnames": "^2.3.1",
     "firebase": "^9.6.6",
     "html-react-parser": "^1.4.8",
