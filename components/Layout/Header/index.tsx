@@ -6,7 +6,7 @@ import cN from 'classnames';
 
 export const Header = (): ReactElement => {
   const router = useRouter();
-  const getTitleDelay = getIncrementor(0, 0.01);
+  const getTitleDelay = getIncrementor(0, 0.02);
 
   return (
     <div className={s.header}>
@@ -29,11 +29,13 @@ export const Header = (): ReactElement => {
           })}
         </div>
       </button>
-      <button
-        className={cN('noStyleButton', s.menuEntry)}
-        onClick={() => router.push('timeline')}>
-        Chroniken
-      </button>
+      <FadeIn orientation='right' delay={0.25}>
+        <button
+          className={cN('noStyleButton', s.menuEntry)}
+          onClick={() => router.push('timeline')}>
+          Chroniken
+        </button>
+      </FadeIn>
     </div>
   );
 };

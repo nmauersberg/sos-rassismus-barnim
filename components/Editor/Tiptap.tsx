@@ -118,9 +118,9 @@ export const Tiptap = () => {
   // console.log(editor?.getHTML());
 
   return (
-    <div className={s.editor}>
+    <div>
       {/* <MenuBar editor={editor} edit={edit} /> */}
-      <EditorContent editor={editor} />
+      <EditorContent editor={editor} className={s.editor} />
     </div>
   );
 };

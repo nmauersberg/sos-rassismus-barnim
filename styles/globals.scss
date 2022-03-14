@@ -34,3 +34,9 @@ h2 {
     cursor: pointer;
   }
 }
+
+// Tiptap Editor
+
+.ProseMirror:focus {
+  outline: none;
+}
