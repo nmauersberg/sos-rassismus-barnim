@@ -1,19 +1,16 @@
 import type { NextPage } from 'next';
 import { Tiptap } from '../components/Editor/Tiptap';
 import { FadeIn, getIncrementor } from 'anima-react';
+import { Layout } from '../components/Layout';
 
 const Home: NextPage = () => {
-  const getDelay = getIncrementor(0, 0.15);
+  const getBodyDelay = getIncrementor(0.15, 0.15);
   return (
-    <>
-      <FadeIn delay={getDelay()}>
-        <h1>SOS Rassismus Barnim</h1>
-      </FadeIn>
-
-      <FadeIn delay={getDelay()}>
+    <Layout>
+      <FadeIn delay={getBodyDelay()}>
         <Tiptap />
       </FadeIn>
-    </>
+    </Layout>
   );
 };
 
