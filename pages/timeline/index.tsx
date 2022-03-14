@@ -13,6 +13,7 @@ import {
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { useCollection } from 'react-firebase-hooks/firestore';
 import { Entry, _Entry } from '../../components/Entry';
+import { FadeIn } from 'anima-react';
 
 const auth = getAuth(firebase);
 
@@ -48,23 +49,25 @@ const Timeline = () => {
   }
 
   return (
-    <div className={s.timeline}>
-      {entries
-        ? entries.docs.map((entry, index) => {
-            const data = entry.data() as _Entry;
-            return (
-              <div key={`${data.id}-${index}`} className={s.entry}>
-                <div className={s.title}>
-                  <h3>{data.date.toDate().toLocaleDateString('de-DE')}</h3>
+    <FadeIn>
+      <div className={s.timeline}>
+        {entries
+          ? entries.docs.map((entry, index) => {
+              const data = entry.data() as _Entry;
+              return (
+                <div key={`${data.id}-${index}`} className={s.entry}>
+                  <div className={s.title}>
+                    <h3>{data.date.toDate().toLocaleDateString('de-DE')}</h3>
+                  </div>
+                  <div className={s.body}>
+                    <Entry entry={data} />
+                  </div>
                 </div>
-                <div className={s.body}>
-                  <Entry entry={data} />
-                </div>
-              </div>
-            );
-          })
-        : null}
-    </div>
+              );
+            })
+          : null}
+      </div>
+    </FadeIn>
   );
 };
 

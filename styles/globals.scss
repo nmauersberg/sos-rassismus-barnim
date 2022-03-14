@@ -20,3 +20,17 @@ h1,
 h2 {
   margin: 0 0 2rem 0;
 }
+
+.noStyleButton {
+  outline: none;
+  border: none;
+  background: none;
+  cursor: pointer;
+
+  &:hover {
+    outline: none;
+    border: none;
+    background: none;
+    cursor: pointer;
+  }
+}

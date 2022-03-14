@@ -1,6 +1,7 @@
 import { useEditor, EditorContent, Editor } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
-import s from '../../styles/ButtonRow.module.scss';
+import rs from './ButtonRow.module.scss';
+import s from './style.module.scss';
 import cN from 'classnames';
 
 export const Tiptap = () => {
@@ -117,14 +118,16 @@ export const Tiptap = () => {
   // console.log(editor?.getHTML());
 
   return (
-    <div>
-      <MenuBar editor={editor} />
+    <div className={s.editor}>
+      {/* <MenuBar editor={editor} edit={edit} /> */}
       <EditorContent editor={editor} />
     </div>
   );
 };
 
-const MenuBar = ({ editor }: { editor: Editor | null }) => {
+type MenuBarProps = { editor: Editor | null };
+
+const MenuBar = ({ editor }: MenuBarProps) => {
   if (!editor) {
     return null;
   }
@@ -157,7 +160,7 @@ const MenuBar = ({ editor }: { editor: Editor | null }) => {
         className={cN(s.rowButton, editor.isActive('code') ? 'is-active' : '')}>
         code
       </button>
-      <button
+      {/* <button
         className={s.rowButton}
         onClick={() => editor.chain().focus().unsetAllMarks().run()}>
         clear marks
@@ -166,7 +169,7 @@ const MenuBar = ({ editor }: { editor: Editor | null }) => {
         className={s.rowButton}
         onClick={() => editor.chain().focus().clearNodes().run()}>
         clear node
-      </button>
+      </button> */}
       <button
         onClick={() => editor.chain().focus().setParagraph().run()}
         className={cN(
@@ -207,7 +210,7 @@ const MenuBar = ({ editor }: { editor: Editor | null }) => {
         )}>
         h4
       </button>
-      <button
+      {/* <button
         onClick={() => editor.chain().focus().toggleHeading({ level: 5 }).run()}
         className={cN(
           s.rowButton,
@@ -222,7 +225,7 @@ const MenuBar = ({ editor }: { editor: Editor | null }) => {
           editor.isActive('heading', { level: 6 }) ? 'is-active' : ''
         )}>
         h6
-      </button>
+      </button> */}
       <button
         onClick={() => editor.chain().focus().toggleBulletList().run()}
         className={cN(
@@ -239,7 +242,7 @@ const MenuBar = ({ editor }: { editor: Editor | null }) => {
         )}>
         ordered list
       </button>
-      <button
+      {/* <button
         onClick={() => editor.chain().focus().toggleCodeBlock().run()}
         className={cN(
           s.rowButton,
@@ -254,17 +257,17 @@ const MenuBar = ({ editor }: { editor: Editor | null }) => {
           editor.isActive('blockquote') ? 'is-active' : ''
         )}>
         blockquote
-      </button>
+      </button> */}
       <button
         className={s.rowButton}
         onClick={() => editor.chain().focus().setHorizontalRule().run()}>
         horizontal rule
       </button>
-      <button
+      {/* <button
         className={s.rowButton}
         onClick={() => editor.chain().focus().setHardBreak().run()}>
         hard break{' '}
-      </button>
+      </button> */}
       <button
         className={s.rowButton}
         onClick={() => editor.chain().focus().undo().run()}>

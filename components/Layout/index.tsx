@@ -8,10 +8,10 @@ type LayoutProps = {
 
 export const Layout = ({ children }: LayoutProps): ReactElement => {
   return (
-    <>
+    <div>
       <Header />
       {children}
       <Footer />
-    </>
+    </div>
   );
 };
