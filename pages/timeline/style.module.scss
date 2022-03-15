@@ -15,6 +15,8 @@ $dot-diameter: 8px;
     left: calc(20% + 28px); //$gutter/2
     bottom: 0px;
     width: $border-width;
+    opacity: 0;
+    animation: fadeIn 0.5s ease-in-out 0.25s forwards;
     background: #ddd;
   }
   &:after {
@@ -36,6 +38,7 @@ $dot-diameter: 8px;
     text-align: right;
     position: relative;
     color: white;
+    animation: zoomInLeft 0.5s ease-in-out;
     &:before {
       content: '';
       position: absolute;
@@ -47,6 +50,8 @@ $dot-diameter: 8px;
       top: 15%;
       right: -$dot-diameter;
       z-index: 99;
+      transform: scale(0);
+      animation: zoomIn 0.5s ease-in-out 0.5s forwards;
     }
     h3 {
       margin: 0;
@@ -78,5 +83,32 @@ $dot-diameter: 8px;
         margin-right: 0.5em;
       }
     }
+  }
+}
+
+@keyframes zoomIn {
+  from {
+    transform: scale(0);
+  }
+  to {
+    transform: scale(1);
+  }
+}
+
+@keyframes zoomInLeft {
+  from {
+    transform: scale(0) translateX(-50px);
+  }
+  to {
+    transform: scale(1) translateX(0px);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
   }
 }
