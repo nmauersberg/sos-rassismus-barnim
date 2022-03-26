@@ -1,9 +1,13 @@
-$red: salmon;
+$red: firebrick;
 $grey: #f0f0f0;
 $greyBright: #f5f5f5;
 $greyMedium: #dedede;
 $white: white;
 $black: black;
+
+:export {
+  red: $red;
+}
 
 $headerHeight: 5rem;
 $headerHeightS: 4rem;

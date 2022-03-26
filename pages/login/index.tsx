@@ -21,21 +21,21 @@ const Login: NextPage = () => {
 
   if (loading) {
     return (
-      <div>
+      <div className={s.loginForm}>
         <p>Initialising User...</p>
       </div>
     );
   }
   if (error) {
     return (
-      <div>
+      <div className={s.loginForm}>
         <p>Error: {error}</p>
       </div>
     );
   }
   if (user) {
     return (
-      <div>
+      <div className={s.loginForm}>
         <p>Current User: {user.email}</p>
         <button onClick={logout}>Log out</button>
       </div>

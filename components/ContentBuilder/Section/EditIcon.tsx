@@ -29,7 +29,7 @@ export const EditIcon = ({
 
   const getColor = () => {
     if (!hover) {
-      return isActive ? 'salmon' : 'gray';
+      return isActive ? 'firebrick' : 'gray';
     }
     return 'red';
   };

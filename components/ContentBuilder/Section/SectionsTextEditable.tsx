@@ -31,10 +31,13 @@ export const SectionsTextEditable = ({
       {!element.edit ? (
         <>{parseHTML(element.content)}</>
       ) : (
-        <Tiptap
-          content={element.content}
-          updateContent={(content) => updateContent(element.index, content)}
-        />
+        <>
+          {element.edit ? 'true' : 'false'}
+          <Tiptap
+            content={element.content}
+            updateContent={(content) => updateContent(element.index, content)}
+          />
+        </>
       )}
     </div>
   );

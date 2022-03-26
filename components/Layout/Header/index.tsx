@@ -4,9 +4,12 @@ import s from './style.module.scss';
 import { useRouter } from 'next/router';
 import cN from 'classnames';
 import { AuthContext } from '../../../context/AuthContext';
+import { mdiCogOutline } from '@mdi/js';
+import { NoSsr } from '../../ContentBuilder/Util/NoSsr';
+import Icon from '@mdi/react';
 
 export const Header = (): ReactElement => {
-  const { user, toggleEditPage } = useContext(AuthContext);
+  const { user, toggleEditPage, editPage } = useContext(AuthContext);
   const router = useRouter();
   const getTitleDelay = getIncrementor(0, 0.02);
 
@@ -21,7 +24,11 @@ export const Header = (): ReactElement => {
                   {word.split('').map((char, charIndex) => {
                     return (
                       <FadeIn key={charIndex} delay={getTitleDelay()}>
-                        <h1 className={wordIndex === 0 ? s.sosFlash : ''}>
+                        <h1
+                          className={cN(
+                            s.pageTitleLetter,
+                            wordIndex === 0 ? s.sosFlash : ''
+                          )}>
                           {char}
                         </h1>
                       </FadeIn>
@@ -32,16 +39,7 @@ export const Header = (): ReactElement => {
             })}
           </div>
         </button>
-        <div className='flex'>
-          {user && (
-            <FadeIn orientation='right' delay={0.25}>
-              <button
-                className={cN('noStyleButton', s.menuEntry)}
-                onClick={() => toggleEditPage()}>
-                Seite bearbeiten
-              </button>
-            </FadeIn>
-          )}
+        <div className={s.optionRow}>
           <FadeIn orientation='right' delay={0.25}>
             <button
               className={cN('noStyleButton', s.menuEntry)}
@@ -49,6 +47,22 @@ export const Header = (): ReactElement => {
               Chroniken
             </button>
           </FadeIn>
+          {user && (
+            <FadeIn orientation='right' delay={0.25}>
+              <button
+                className={cN('noStyleButton', s.menuEntry)}
+                onClick={() => toggleEditPage()}>
+                <NoSsr>
+                  <Icon
+                    path={mdiCogOutline}
+                    size={1.05}
+                    color={editPage ? 'red' : 'black'}
+                    title={'Seite bearbeiten'}
+                  />
+                </NoSsr>
+              </button>
+            </FadeIn>
+          )}
         </div>
       </div>
     </div>
