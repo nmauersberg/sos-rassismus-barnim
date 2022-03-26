@@ -3,12 +3,19 @@ import nookies from 'nookies';
 import { createContext, useEffect, useState } from 'react';
 import firebase from '../firebase/clientApp';
 
-export const AuthContext = createContext<{ user: User | null }>({
+export const AuthContext = createContext<{
+  user: User | null;
+  editPage: boolean;
+  toggleEditPage: () => void;
+}>({
   user: null,
+  editPage: false,
+  toggleEditPage: () => {},
 });
 
 export function AuthProvider({ children }: any) {
   const [user, setUser] = useState<User | null>(null);
+  const [editPage, setEditPage] = useState<boolean>(false);
   const auth = getAuth(firebase);
 
   useEffect(() => {
@@ -34,7 +41,13 @@ export function AuthProvider({ children }: any) {
     return () => clearInterval(handle);
   }, [auth]);
 
+  const toggleEditPage = (): void => {
+    setEditPage(!editPage);
+  };
+
   return (
-    <AuthContext.Provider value={{ user }}>{children}</AuthContext.Provider>
+    <AuthContext.Provider value={{ user, editPage, toggleEditPage }}>
+      {children}
+    </AuthContext.Provider>
   );
 }
