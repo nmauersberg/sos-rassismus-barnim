@@ -14,10 +14,11 @@ import { useAuthState } from 'react-firebase-hooks/auth';
 import { useCollection } from 'react-firebase-hooks/firestore';
 import { Entry, _Entry } from '../../components/Entry';
 import { FadeIn } from 'anima-react';
+import { LoadingAnimation } from '../../components/LoadingAnimation/index';
 
 const auth = getAuth(firebase);
 
-const Timeline = () => {
+const Chronik = () => {
   const db = getFirestore(firebase);
 
   const addEntry = async () => {
@@ -45,7 +46,7 @@ const Timeline = () => {
   );
 
   if (loading) {
-    return <h2>Loading...</h2>;
+    return <LoadingAnimation />;
   }
 
   return (
@@ -71,4 +72,4 @@ const Timeline = () => {
   );
 };
 
-export default Timeline;
+export default Chronik;
