@@ -9,6 +9,8 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@mdi/js": "^6.6.95",
+    "@mdi/react": "^1.5.0",
     "@tiptap/react": "^2.0.0-beta.108",
     "@tiptap/starter-kit": "^2.0.0-beta.183",
     "anima-react": "^0.0.6",
@@ -20,6 +22,8 @@
     "react": "17.0.2",
     "react-dom": "17.0.2",
     "react-firebase-hooks": "^5.0.2",
+    "react-sortablejs": "^6.1.1",
+    "react-tooltip": "^4.2.21",
     "sass": "^1.49.8",
     "sass-loader": "^12.6.0"
   },
