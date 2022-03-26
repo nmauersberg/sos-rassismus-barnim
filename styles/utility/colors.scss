@@ -1,0 +1,69 @@
+@import '../vars.scss';
+
+$bgColors: (
+  red: $red,
+  white: $white,
+  black: $black,
+);
+
+@each $label, $color in $bgColors {
+  .bg-#{'' + $label} {
+    background: #{$color};
+    background-color: #{$color};
+  }
+}
+
+// COLOR SCHEMES
+.colorSchemeWhite {
+  background-color: $white;
+  color: $black;
+  --primary-color: $white;
+  --secondary-color: $red;
+  --bg-color: $white;
+  --font-color: $black;
+  --heading-color: $red;
+  --text-on-secondary-color: $white;
+  --button-font-color: $red;
+  --button-bg-color: rgb(255, 0, 0); // IE Fallback
+  --button-bg-color: $redTransparent;
+  --button-hover-bg-color: $red;
+  --button-hover-font-color: $white;
+  --input-border-color: $red;
+  --input-font-color: $red;
+}
+
+.colorSchemeBlack {
+  background-color: $black;
+  color: $white;
+  --primary-color: $red;
+  --secondary-color: $white;
+  --bg-color: $red;
+  --font-color: $white;
+  --heading-color: $white;
+  --text-on-secondary-color: $black;
+  --button-font-color: $white;
+  --button-bg-color: $black; // IE Fallback
+  --button-bg-color: $whiteTransparent;
+  --button-hover-bg-color: $white;
+  --button-hover-font-color: $red;
+  --input-border-color: $black;
+  --input-font-color: $red;
+}
+
+.colorSchemeRed {
+  background-color: $red;
+  color: $white;
+  --primary-color: $red;
+  --secondary-color: $white;
+  --bg-color: $red;
+  --font-color: $white;
+  --heading-color: $white;
+  --text-on-secondary-color: $black;
+  --button-font-color: $white;
+  --button-bg-color: $black; // IE Fallback
+  --button-bg-color: $whiteTransparent;
+  --button-hover-bg-color: $white;
+  --button-hover-font-color: $red;
+  --input-border-color: $black;
+  --input-font-color: $red;
+}

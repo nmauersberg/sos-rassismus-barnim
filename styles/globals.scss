@@ -1,7 +1,17 @@
+@import './utility/spacing.scss';
+@import './utility/text.scss';
+@import './utility/misc.scss';
+@import './utility/flex.scss';
+@import './utility/position.scss';
+@import './utility/colors.scss';
+@import './utility/buttons.scss';
+
 html,
 body {
   padding: 0;
   margin: 0;
+  background: black;
+  color: white;
   font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
     Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
 }
@@ -15,7 +25,9 @@ a {
   box-sizing: border-box;
 }
 
-p,
+p {
+  margin: 0 0 1rem 0;
+}
 h1,
 h2 {
   margin: 0 0 2rem 0;
@@ -39,4 +51,15 @@ h2 {
 
 .ProseMirror:focus {
   outline: none;
+}
+
+.pageWidth {
+  /* padding-left: calc(calc(100vw - #{$headerWidth}) / 2); */
+  margin: 0 auto;
+  width: $headerWidth;
+}
+
+.sections {
+  max-width: $headerWidth;
+  margin: 0 auto;
 }
