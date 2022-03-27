@@ -15,7 +15,7 @@ export const Header = (): ReactElement => {
 
   return (
     <div className={s.header}>
-      <div className={cN('pageWidth', 'justify-between')}>
+      <div className={cN('pageWidth', 'justify-between', 'items-center')}>
         <button className='noStyleButton' onClick={() => router.push('/')}>
           <div className={s.pageTitle}>
             {'SOS Rassismus Barnim'.split(' ').map((word, wordIndex) => {
@@ -39,6 +39,7 @@ export const Header = (): ReactElement => {
             })}
           </div>
         </button>
+        <div className='grow'></div>
         <div className={s.optionRow}>
           <FadeIn orientation='right' delay={0.25}>
             <button
@@ -47,23 +48,24 @@ export const Header = (): ReactElement => {
               Chroniken
             </button>
           </FadeIn>
-          {user && (
-            <FadeIn orientation='right' delay={0.25}>
-              <button
-                className={cN('noStyleButton', s.menuEntry)}
-                onClick={() => toggleEditPage()}>
-                <NoSsr>
-                  <Icon
-                    path={mdiCogOutline}
-                    size={1.05}
-                    color={editPage ? 'red' : 'black'}
-                    title={'Seite bearbeiten'}
-                  />
-                </NoSsr>
-              </button>
-            </FadeIn>
-          )}
         </div>
+        {user && (
+          <FadeIn orientation='right' delay={0.25}>
+            <button
+              className={cN('noStyleButton', s.menuEntry)}
+              onClick={() => toggleEditPage()}>
+              <NoSsr>
+                <Icon
+                  className='pt-2'
+                  path={mdiCogOutline}
+                  size={1.5}
+                  color={editPage ? 'firebrick' : 'black'}
+                  title={'Seite bearbeiten'}
+                />
+              </NoSsr>
+            </button>
+          </FadeIn>
+        )}
       </div>
     </div>
   );

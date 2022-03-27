@@ -14,14 +14,13 @@ export const SectionWrapper = ({
 }: SectionWrapperProps) => {
   return (
     <section className={`py-16 ${colorScheme}`}>
-      <section className="sections">
+      <section className='pageWidth'>
         <h2
           className={cN(
             'mb-4',
             'px-4',
             `${colorScheme === 'colorSchemeWhite' ? 'text-violet' : ''}`
-          )}
-        >
+          )}>
           {title}
         </h2>
         {children}

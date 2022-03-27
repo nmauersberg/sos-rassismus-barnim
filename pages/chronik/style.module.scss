@@ -1,6 +1,7 @@
 $gutter: 30px;
 $border-width: 4px;
 $dot-diameter: 8px;
+$distance-from-top: 0.75rem;
 
 .timeline {
   width: 100%;
@@ -35,12 +36,14 @@ $dot-diameter: 8px;
     margin-bottom: 0.5em;
     float: left;
     width: 20%;
+    padding-top: $distance-from-top;
     padding-right: $gutter;
     text-align: right;
     position: relative;
     color: white;
     animation: zoomInLeft 0.5s ease-in-out;
     &:before {
+      margin-top: calc($distance-from-top - 0.1rem);
       content: '';
       position: absolute;
       width: $dot-diameter;

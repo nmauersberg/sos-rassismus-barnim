@@ -42,12 +42,12 @@ export const EditSection = ({
   return (
     <>
       <div className={s.editSection}>
-        <div className="sections flex">
+        <div className='pageWidth flex'>
           <EditIcon
             path={mdiDockLeft}
             action={() => updateSectionLayout('25-75')}
             size={1.25}
-            tooltip="Layout 25%-75%"
+            tooltip='Layout 25%-75%'
             isActive={modifiedSection.layout === '25-75'}
           />
 
@@ -56,7 +56,7 @@ export const EditSection = ({
             action={() => updateSectionLayout('50-50')}
             size={1.25}
             rotate={90}
-            tooltip="Layout 50%-50%"
+            tooltip='Layout 50%-50%'
             isActive={modifiedSection.layout === '50-50'}
           />
 
@@ -65,7 +65,7 @@ export const EditSection = ({
             action={() => updateSectionLayout('75-25')}
             size={1.25}
             rotate={90}
-            tooltip="Layout 75%-25%"
+            tooltip='Layout 75%-25%'
             isActive={modifiedSection.layout === '75-25'}
           />
 
@@ -74,7 +74,7 @@ export const EditSection = ({
             action={() => updateSectionLayout('100')}
             size={1.25}
             rotate={0}
-            tooltip="Layout 100%"
+            tooltip='Layout 100%'
             isActive={modifiedSection.layout === '100'}
           />
 
@@ -83,14 +83,14 @@ export const EditSection = ({
             updateColorScheme={updateColorScheme}
           />
 
-          <div className="grow" />
+          <div className='grow' />
 
           <EditIcon
             path={mdiContentSaveOutline}
             action={() => updateSection(modifiedSection)}
             size={1.25}
             rotate={0}
-            tooltip="Speichern"
+            tooltip='Speichern'
           />
         </div>
       </div>

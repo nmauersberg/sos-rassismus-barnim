@@ -10,8 +10,8 @@ type LayoutProps = {
 export const Layout = ({ children }: LayoutProps): ReactElement => {
   return (
     <>
+      <Header />
       <div className={s.layout}>
-        <Header />
         <div className={s.content}>{children}</div>
       </div>
       <Footer />

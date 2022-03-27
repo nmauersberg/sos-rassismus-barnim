@@ -6,7 +6,9 @@ export const Footer = (): ReactElement => {
   return (
     <FadeIn delay={0.25} orientation='up' duration={0.25} distance={25}>
       <div className={s.footer}>
-        © {new Date().getFullYear()} - SOS Rassismus Barnim{' '}
+        <div className='pageWidth'>
+          © {new Date().getFullYear()} - SOS Rassismus Barnim{' '}
+        </div>
       </div>
     </FadeIn>
   );
