@@ -15,7 +15,13 @@ export const Header = (): ReactElement => {
 
   return (
     <div className={s.header}>
-      <div className={cN('pageWidth', 'justify-between', 'items-center')}>
+      <div
+        className={cN(
+          'pageWidth',
+          'justify-between',
+          'items-center',
+          'h-full'
+        )}>
         <button className='noStyleButton' onClick={() => router.push('/')}>
           <div className={s.pageTitle}>
             {'SOS Rassismus Barnim'.split(' ').map((word, wordIndex) => {

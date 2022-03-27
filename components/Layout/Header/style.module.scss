@@ -1,3 +1,5 @@
+@import '../../../styles/vars.scss';
+
 @keyframes flashRed {
   0% {
     color: black;
@@ -54,6 +56,10 @@
   font-family: Oswald;
   font-weight: 400;
   font-size: 1.1rem;
+
+  @media (max-width: $breakPointS) {
+    font-size: 0.8rem;
+  }
 }
 
 .pageTitleLetter {
@@ -71,5 +77,9 @@
   font-family: Oswald;
   &:hover {
     color: firebrick;
+  }
+
+  @media (max-width: $breakPointS) {
+    font-size: 1.1rem;
   }
 }

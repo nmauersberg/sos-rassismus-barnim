@@ -7,6 +7,15 @@
   flex-wrap: wrap;
 }
 
+.flexWrapS {
+  display: flex;
+  flex-wrap: wrap;
+
+  @media (max-width: $breakPointS) {
+    flex-direction: column;
+  }
+}
+
 .justify-between {
   display: flex;
   justify-content: space-between;

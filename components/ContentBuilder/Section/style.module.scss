@@ -1,3 +1,13 @@
+@import '../../../styles/vars.scss';
+
+@mixin mobile-width {
+  @media (max-width: $breakPointS) {
+    width: 100%;
+    min-width: 100%;
+    max-width: 100%;
+  }
+}
+
 .flexItem100 {
   max-width: 100%;
   min-width: 100%;
@@ -10,6 +20,7 @@
   min-width: 75%;
   padding: 1rem;
   transition: all 0.25s ease-out;
+  @include mobile-width;
 }
 
 .flexItem50 {
@@ -17,6 +28,7 @@
   min-width: 50%;
   padding: 1rem;
   transition: all 0.25s ease-out;
+  @include mobile-width();
 }
 
 .flexItem25 {
@@ -24,6 +36,7 @@
   min-width: 25%;
   padding: 1rem;
   transition: all 0.25s ease-out;
+  @include mobile-width;
 }
 
 .flexItem2 {
@@ -31,6 +44,7 @@
   min-width: 50%;
   padding: 1rem;
   transition: all 0.25s ease-out;
+  @include mobile-width;
 }
 
 .flexItem3 {
@@ -38,6 +52,7 @@
   min-width: 50%;
   padding: 1rem;
   transition: all 0.25s ease-out;
+  @include mobile-width;
 }
 
 .editSection {

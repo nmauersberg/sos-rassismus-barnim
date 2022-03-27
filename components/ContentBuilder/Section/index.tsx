@@ -156,7 +156,7 @@ export const Section = ({
       <SectionWrapper
         colorScheme={modifiedSection.colorScheme}
         title={modifiedSection.title}>
-        <div className='flexWrap'>
+        <div className='flexWrapS'>
           {groupedElements.map((elements, index) => {
             const flexItemClass =
               index % 2 == 0
