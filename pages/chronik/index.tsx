@@ -13,13 +13,17 @@ import {
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { useCollection } from 'react-firebase-hooks/firestore';
 import { Entry, _Entry } from '../../components/Entry';
-import { FadeIn } from 'anima-react';
+import { FadeIn, getIncrementor } from 'anima-react';
 import { LoadingAnimation } from '../../components/LoadingAnimation/index';
+import cN from 'classnames';
+import { SpacerRow } from './SpacerRow';
 
 const auth = getAuth(firebase);
 
 const Chronik = () => {
   const db = getFirestore(firebase);
+
+  const getDelay = getIncrementor(0, 0.1);
 
   const addEntry = async () => {
     await addDoc(collection(db, 'entries'), {
@@ -50,25 +54,42 @@ const Chronik = () => {
   }
 
   return (
-    <FadeIn>
-      <div className={s.timeline}>
-        {entries
-          ? entries.docs.map((entry, index) => {
-              const data = entry.data() as _Entry;
-              return (
-                <div key={`${data.id}-${index}`} className={s.entry}>
-                  <div className={s.title}>
-                    <h3>{data.date.toDate().toLocaleDateString('de-DE')}</h3>
+    <div className={cN('pageWidth', s.chronicles)}>
+      <FadeIn delay={getDelay()}>
+        <SpacerRow />
+      </FadeIn>
+      {entries
+        ? entries.docs.map((entry, index) => {
+            const data = entry.data() as _Entry;
+            return (
+              <FadeIn delay={getDelay()} key={`${data.id}-${index}`}>
+                <div className={s.chronicleRow}>
+                  <div className={s.dateDesktop}>
+                    <h3 className='m-0'>
+                      {data.date.toDate().toLocaleDateString('de-DE')}
+                    </h3>
                   </div>
-                  <div className={s.body}>
+                  <div className={s.timeline}>
+                    <div className={s.timelineLine}></div>
+                    <div className={s.timelineDot}></div>
+                  </div>
+                  <div className={s.entryContainer}>
+                    <div className={s.dateMobile}>
+                      <h3 className='m-0'>
+                        {data.date.toDate().toLocaleDateString('de-DE')}
+                      </h3>
+                    </div>
                     <Entry entry={data} />
                   </div>
                 </div>
-              );
-            })
-          : null}
-      </div>
-    </FadeIn>
+              </FadeIn>
+            );
+          })
+        : null}
+      <FadeIn delay={getDelay()}>
+        <SpacerRow />
+      </FadeIn>
+    </div>
   );
 };
 

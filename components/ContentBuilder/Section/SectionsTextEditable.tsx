@@ -3,6 +3,7 @@ import { EditElement } from './EditElement';
 import { Section, SectionsText } from '.';
 import parseHTML from 'html-react-parser';
 import { Tiptap } from '../Editor/Tiptap';
+import s from './style.module.scss';
 
 type SectionsTextEditableProps = {
   element: SectionsText;
@@ -20,7 +21,7 @@ export const SectionsTextEditable = ({
   setModifiedSection,
 }: SectionsTextEditableProps): ReactElement => {
   return (
-    <div>
+    <div className={s.sectionsTextContent}>
       {editSections && (
         <EditElement
           modifiedSection={modifiedSection}
