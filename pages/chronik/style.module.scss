@@ -38,7 +38,6 @@ $distanceFromTop: 1.2rem;
 .dateMobile {
   margin: calc($distanceFromTop - 0.5rem) 0 0.5rem 0;
   animation: zoomInLeft 0.5s ease-in-out;
-  text-align: right;
 
   @media (min-width: $breakPointS) {
     display: none;
