@@ -205,23 +205,23 @@ export const Section = ({
                           />
                         </div>
                       );
-                    case 'sectionsComponent':
-                      const Component = dynamic(
-                        () => import(`../_dynamic/${element.component}`),
-                        { ssr: false, loading: () => null }
-                      );
-                      return (
-                        <div key={'component-' + element.index}>
-                          {editSections && (
-                            <EditElement
-                              modifiedSection={modifiedSection}
-                              setModifiedSection={setModifiedSection}
-                              element={element}
-                            />
-                          )}
-                          <Component key={element.id} />
-                        </div>
-                      );
+                    // case 'sectionsComponent':
+                    //   const Component = dynamic(
+                    //     () => import(`../_dynamic/${element.component}`),
+                    //     { ssr: false, loading: () => null }
+                    //   );
+                    //   return (
+                    //     <div key={'component-' + element.index}>
+                    //       {editSections && (
+                    //         <EditElement
+                    //           modifiedSection={modifiedSection}
+                    //           setModifiedSection={setModifiedSection}
+                    //           element={element}
+                    //         />
+                    //       )}
+                    //       <Component key={element.id} />
+                    //     </div>
+                    //   );
                     case 'sectionsVideo':
                       return (
                         <YoutubeEmbed
