@@ -7,7 +7,6 @@ $distanceFromTop: 1.2rem;
 
 .chronicles {
   width: 100%;
-  min-height: 100vh;
 }
 
 .chronicleRow {
@@ -22,9 +21,10 @@ $distanceFromTop: 1.2rem;
 .dateDesktop {
   margin: $distanceFromTop 0 0 1rem;
   animation: zoomInLeft 0.5s ease-in-out;
-  width: 6rem;
-  max-width: 6rem;
-  min-width: 6rem;
+  width: 7rem;
+  max-width: 7rem;
+  min-width: 7rem;
+  text-align: right;
 
   @media (min-width: $breakPointS) {
     display: block;
@@ -38,6 +38,7 @@ $distanceFromTop: 1.2rem;
 .dateMobile {
   margin: calc($distanceFromTop - 0.5rem) 0 0.5rem 0;
   animation: zoomInLeft 0.5s ease-in-out;
+  text-align: right;
 
   @media (min-width: $breakPointS) {
     display: none;

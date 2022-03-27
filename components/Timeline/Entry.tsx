@@ -7,9 +7,13 @@ import cN from 'classnames';
 
 export type _Entry = {
   id: string;
+  date: Timestamp;
   title: string;
   content: string;
-  date: Timestamp;
+  extraContent?: string;
+  location?: string;
+  source?: string;
+  label?: string;
 };
 
 type EntryProps = { entry: _Entry };
@@ -33,7 +37,23 @@ export const Entry = ({ entry }: EntryProps): ReactElement => {
       })}>
       <h2>{entry.title}</h2>
       {parseHTML(entry.content)}
-      <p>Date: {dateHR}</p>
+      {entry.location && (
+        <>
+          <span>Ort: {entry.location}</span>
+          <br />
+        </>
+      )}
+      {entry.source && (
+        <>
+          <span>Quelle: {entry.source}</span>
+          <br />
+          <br />
+        </>
+      )}
+      {entry.extraContent && (
+        <span>Nachtrag: {parseHTML(entry.extraContent)}</span>
+      )}
+      {entry.label && <p>Kategorie: {entry.label}</p>}
     </div>
   );
 };

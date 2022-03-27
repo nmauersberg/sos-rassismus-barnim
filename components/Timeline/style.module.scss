@@ -4,9 +4,9 @@
   width: 100%;
   background-color: white;
   color: black;
-  opacity: 1;
-  transition: width 0.75s, background-color 0.5s, opacity 0.75s;
+  transition: background-color 0.5s, opacity 0.75s;
   transition-timing-function: ease-in-out;
+  animation: zoomInLeft 0.5s ease-in-out;
   border-radius: 15px;
 
   &.notInView {
@@ -14,5 +14,14 @@
     opacity: 0;
     background-color: firebrick;
     margin: 0 auto;
+  }
+}
+
+@keyframes zoomInLeft {
+  from {
+    transform: scale(0.5) translateX(-50px);
+  }
+  to {
+    transform: scale(1) translateX(0px);
   }
 }
