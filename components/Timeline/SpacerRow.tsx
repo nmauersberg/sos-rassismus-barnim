@@ -1,5 +1,5 @@
 import { ReactElement } from 'react';
-import s from './style.module.scss';
+import s from '../../pages/chronik/style.module.scss';
 
 export const SpacerRow = (): ReactElement => {
   return (

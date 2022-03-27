@@ -12,11 +12,11 @@ import {
 } from 'firebase/firestore';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { useCollection } from 'react-firebase-hooks/firestore';
-import { Entry, _Entry } from '../../components/Entry';
+import { Entry, _Entry } from '../../components/Timeline/Entry';
 import { FadeIn, getIncrementor } from 'anima-react';
 import { LoadingAnimation } from '../../components/LoadingAnimation/index';
 import cN from 'classnames';
-import { SpacerRow } from './SpacerRow';
+import { SpacerRow } from '../../components/Timeline/SpacerRow';
 
 const auth = getAuth(firebase);
 

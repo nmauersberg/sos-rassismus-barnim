@@ -15,7 +15,7 @@ import {
 } from 'firebase/firestore';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { useCollection } from 'react-firebase-hooks/firestore';
-import { Entry, _Entry } from '../../components/Entry';
+import { Entry, _Entry } from '../../components/Timeline/Entry';
 
 const auth = getAuth(firebase);
 
