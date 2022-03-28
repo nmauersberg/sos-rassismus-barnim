@@ -2794,6 +2794,11 @@ has@^1.0.3:
   dependencies:
     function-bind "^1.1.1"
 
+heroku-ssl-redirect@^0.1.1:
+  version "0.1.1"
+  resolved "https://registry.yarnpkg.com/heroku-ssl-redirect/-/heroku-ssl-redirect-0.1.1.tgz#c55d60c0ec4473358ead66c75e8c7e99d9e8a689"
+  integrity sha512-kL/DvLR2J53iB3TXasQlo5JwF/j2L2zkala6Ddk9o6JwIPeDvbTGT9Aty8WElxcF389ObICCeyf2m7RKpCg5Bg==
+
 hoist-non-react-statics@^3.0.0, hoist-non-react-statics@^3.3.1:
   version "3.3.2"
   resolved "https://registry.yarnpkg.com/hoist-non-react-statics/-/hoist-non-react-statics-3.3.2.tgz#ece0acaf71d62c2969c2ec59feff42a4b1a85b45"
@@ -3760,6 +3765,11 @@ react-firebase-hooks@^5.0.2:
   version "5.0.2"
   resolved "https://registry.yarnpkg.com/react-firebase-hooks/-/react-firebase-hooks-5.0.2.tgz#f1f6c41052226d4d1d7323667dfae1dfa5cc2502"
   integrity sha512-9Do3z5nvYxIMWh+cuHGL7Pzwh+C1PlGWZPyS1Gju6136rjuYbt6l9PR6+SkEWHxTKbRJEEY55sKtp+ZAWXajBQ==
+
+react-intersection-observer@^8.33.1:
+  version "8.33.1"
+  resolved "https://registry.yarnpkg.com/react-intersection-observer/-/react-intersection-observer-8.33.1.tgz#8e6442cac7052ed63056e191b7539e423e7d5c64"
+  integrity sha512-3v+qaJvp3D1MlGHyM+KISVg/CMhPiOlO6FgPHcluqHkx4YFCLuyXNlQ/LE6UkbODXlQcLOppfX6UMxCEkUhDLw==
 
 react-is@^16.13.1, react-is@^16.7.0:
   version "16.13.1"

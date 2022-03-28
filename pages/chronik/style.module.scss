@@ -3,7 +3,7 @@
 $timelineContainerWidth: 1.5rem;
 $timelineWidth: 0.2rem;
 $dot-border-width: 0.1rem;
-$distanceFromTop: 1.2rem;
+$distanceFromTop: 1rem;
 
 .chronicles {
   width: 100%;
@@ -40,7 +40,7 @@ $distanceFromTop: 1.2rem;
 }
 
 .dateMobile {
-  margin: calc($distanceFromTop - 0.5rem) 0 0.5rem 0;
+  margin: $distanceFromTop 0 0.5rem 0.5rem;
   animation: zoomInLeft 0.5s ease-in-out;
 
   @media (min-width: $breakPointS) {

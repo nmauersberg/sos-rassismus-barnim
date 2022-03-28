@@ -1,9 +1,9 @@
 import { Timestamp } from 'firebase/firestore';
 import { ReactElement, useRef } from 'react';
 import parseHTML from 'html-react-parser';
-import useOnScreen from '../../hooks/useOnScreen';
 import s from './style.module.scss';
 import cN from 'classnames';
+import { useInView } from 'react-intersection-observer';
 
 export type _Entry = {
   id: string;
@@ -19,11 +19,10 @@ export type _Entry = {
 type EntryProps = { entry: _Entry };
 
 export const Entry = ({ entry }: EntryProps): ReactElement => {
-  const refTop = useRef(null);
-  const topIsVisible = useOnScreen(refTop);
-
-  const refBottom = useRef(null);
-  const bottomIsVisible = useOnScreen(refBottom);
+  const { ref, inView } = useInView({
+    threshold: 0.1,
+    triggerOnce: true,
+  });
 
   const dateHR = entry.date
     ? new Date(entry.date.toDate()).toLocaleDateString('de-DE')
@@ -31,29 +30,31 @@ export const Entry = ({ entry }: EntryProps): ReactElement => {
 
   return (
     <div
-      ref={refTop}
+      ref={ref}
       className={cN(s.entry, {
-        [s.notInView]: !topIsVisible,
+        [s.notInView]: !inView,
       })}>
-      <h2>{entry.title}</h2>
-      {parseHTML(entry.content)}
-      {entry.location && (
-        <>
-          <span>Ort: {entry.location}</span>
-          <br />
-        </>
-      )}
-      {entry.source && (
-        <>
-          <span>Quelle: {entry.source}</span>
-          <br />
-          <br />
-        </>
-      )}
-      {entry.extraContent && (
-        <span>Nachtrag: {parseHTML(entry.extraContent)}</span>
-      )}
-      {entry.label && <p>Kategorie: {entry.label}</p>}
+      <div className='p-4'>
+        <h2>{entry.title}</h2>
+        {parseHTML(entry.content)}
+        {entry.location && (
+          <>
+            <span>Ort: {entry.location}</span>
+            <br />
+          </>
+        )}
+        {entry.source && (
+          <>
+            <span>Quelle: {entry.source}</span>
+            <br />
+            <br />
+          </>
+        )}
+        {entry.extraContent && (
+          <span>Nachtrag: {parseHTML(entry.extraContent)}</span>
+        )}
+        {entry.label && <p>Kategorie: {entry.label}</p>}
+      </div>
     </div>
   );
 };
