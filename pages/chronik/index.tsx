@@ -17,30 +17,28 @@ import { FadeIn, getIncrementor } from 'anima-react';
 import { LoadingAnimation } from '../../components/LoadingAnimation/index';
 import cN from 'classnames';
 import { SpacerRow } from '../../components/Timeline/SpacerRow';
+import { useEffect, useState } from 'react';
 
 const auth = getAuth(firebase);
+const db = getFirestore(firebase);
+
+const addEntry = async () => {
+  await addDoc(collection(db, 'entries'), {
+    title: 'Another Test 6',
+    content: '<h2>Hello hello?</h2>',
+    date: serverTimestamp() as Timestamp,
+  });
+};
+
+const updateEntry = async () => {
+  await setDoc(doc(db, 'entries', '<idOfDocToUpdate>'), {
+    title: 'Another Test...',
+    content: '<h2>Hello hello?</h2>',
+    date: serverTimestamp() as Timestamp,
+  });
+};
 
 const Chronik = () => {
-  const db = getFirestore(firebase);
-
-  const getDelay = getIncrementor(0, 0.1);
-
-  const addEntry = async () => {
-    await addDoc(collection(db, 'entries'), {
-      title: 'Another Test 6',
-      content: '<h2>Hello hello?</h2>',
-      date: serverTimestamp() as Timestamp,
-    });
-  };
-
-  const updateEntry = async () => {
-    await setDoc(doc(db, 'entries', '<idOfDocToUpdate>'), {
-      title: 'Another Test...',
-      content: '<h2>Hello hello?</h2>',
-      date: serverTimestamp() as Timestamp,
-    });
-  };
-
   const [user] = useAuthState(auth);
   const [entries, loading, error] = useCollection(
     collection(getFirestore(firebase), 'entries'),
@@ -48,6 +46,21 @@ const Chronik = () => {
       snapshotListenOptions: { includeMetadataChanges: true },
     }
   );
+  const [mappedEntries, setMappedEntries] = useState<_Entry[]>([]);
+
+  useEffect(() => {
+    if (!entries) return;
+
+    const raw = entries.docs.map((entry, index) => {
+      return entry.data() as _Entry;
+    });
+    const sorted = raw.sort(
+      (a, b) => a.date.toDate().getTime() - b.date.toDate().getTime()
+    );
+    setMappedEntries(sorted);
+  }, [entries]);
+
+  const getDelay = getIncrementor(0, 0.1);
 
   if (loading) {
     return <LoadingAnimation />;
@@ -58,15 +71,14 @@ const Chronik = () => {
       <FadeIn delay={getDelay()}>
         <SpacerRow />
       </FadeIn>
-      {entries
-        ? entries.docs.map((entry, index) => {
-            const data = entry.data() as _Entry;
+      {mappedEntries
+        ? mappedEntries.map((entry, index) => {
             return (
-              <FadeIn delay={getDelay()} key={`${data.id}-${index}`}>
+              <FadeIn delay={getDelay()} key={`${entry.id}-${index}`}>
                 <div className={s.chronicleRow}>
                   <div className={s.dateDesktop}>
                     <h3 className='m-0'>
-                      {data.date.toDate().toLocaleDateString('de-DE')}
+                      {entry.date.toDate().toLocaleDateString('de-DE')}
                     </h3>
                   </div>
                   <div className={s.timeline}>
@@ -76,10 +88,10 @@ const Chronik = () => {
                   <div className={s.entryContainer}>
                     <div className={s.dateMobile}>
                       <h3 className='m-0'>
-                        {data.date.toDate().toLocaleDateString('de-DE')}
+                        {entry.date.toDate().toLocaleDateString('de-DE')}
                       </h3>
                     </div>
-                    <Entry entry={data} />
+                    <Entry entry={entry} />
                   </div>
                 </div>
               </FadeIn>
