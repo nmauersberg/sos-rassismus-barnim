@@ -16,6 +16,10 @@ $distanceFromTop: 1.2rem;
 .chronicleEmptyRow {
   display: flex;
   height: 4rem;
+
+  @media (max-width: $breakPointS) {
+    height: 1rem;
+  }
 }
 
 .dateDesktop {
@@ -49,7 +53,7 @@ $distanceFromTop: 1.2rem;
 }
 
 .entryContainer {
-  margin: 0.5rem;
+  margin: 0.5rem 1rem 0 0;
   width: 100%;
 }
 
@@ -59,6 +63,10 @@ $distanceFromTop: 1.2rem;
   margin: 0 1rem;
   opacity: 0;
   animation: fadeIn 0.5s ease-in-out 0.25s forwards;
+
+  @media (max-width: $breakPointS) {
+    margin: 0 0.5rem;
+  }
 }
 
 .timelineLine {
