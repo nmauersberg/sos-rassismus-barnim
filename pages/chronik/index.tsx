@@ -75,32 +75,32 @@ const Chronik = () => {
         ? mappedEntries.map((entry, index) => {
             return (
               <FadeIn delay={getDelay()} key={`${entry.id}-${index}`}>
-                <div className={s.chronicleRow}>
-                  <div className={s.dateDesktop}>
-                    <h3 className='m-0'>
-                      {entry.date.toDate().toLocaleDateString('de-DE')}
-                    </h3>
-                  </div>
-                  <div className={s.timeline}>
-                    <div className={s.timelineLine}></div>
-                    <div className={s.timelineDot}></div>
-                  </div>
-                  <div className={s.entryContainer}>
-                    <div className={s.dateMobile}>
+                <>
+                  <div className={s.chronicleRow}>
+                    <div className={s.dateDesktop}>
                       <h3 className='m-0'>
                         {entry.date.toDate().toLocaleDateString('de-DE')}
                       </h3>
                     </div>
-                    <Entry entry={entry} />
+                    <div className={s.timeline}>
+                      <div className={s.timelineLine}></div>
+                      <div className={s.timelineDot}></div>
+                    </div>
+                    <div className={s.entryContainer}>
+                      <div className={s.dateMobile}>
+                        <h3 className='m-0'>
+                          {entry.date.toDate().toLocaleDateString('de-DE')}
+                        </h3>
+                      </div>
+                      <Entry entry={entry} />
+                    </div>
                   </div>
-                </div>
+                  <SpacerRow />
+                </>
               </FadeIn>
             );
           })
         : null}
-      <FadeIn delay={getDelay()}>
-        <SpacerRow />
-      </FadeIn>
     </div>
   );
 };
