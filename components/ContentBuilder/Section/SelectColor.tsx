@@ -25,7 +25,7 @@ export const SelectColor = ({
   <div className={cN(s.dropdown, 'm-2')}>
     <div className='flex'>
       <div className={cN(s.themePreview, currentColorScheme, 'mr-2')} />
-      <span>Farbschema</span>
+      <span className='text-black'>Farbschema</span>
     </div>
     <div className={s.dropdownContent}>
       {options.map((option) => {

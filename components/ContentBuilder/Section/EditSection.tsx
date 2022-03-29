@@ -42,7 +42,7 @@ export const EditSection = ({
   return (
     <>
       <div className={s.editSection}>
-        <div className='pageWidth flex'>
+        <div className='pageWidth flex line-normal'>
           <EditIcon
             path={mdiDockLeft}
             action={() => updateSectionLayout('25-75')}
