@@ -5,7 +5,7 @@ type Option = {
 
 type DropdownProps = {
   label: string;
-  value: string;
+  value: string | undefined;
   options: Option[];
   onChange: (event: { target: { value: string } }) => void;
 };

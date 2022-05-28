@@ -7,7 +7,13 @@ import { Dropdown } from '../Dropdown';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import firebase from '../../firebase/clientApp';
 import { getAuth } from 'firebase/auth';
-import { doc, getFirestore, setDoc, Timestamp } from 'firebase/firestore';
+import {
+  deleteDoc,
+  doc,
+  getFirestore,
+  setDoc,
+  Timestamp,
+} from 'firebase/firestore';
 import { TiptapNoMenu } from '../Editor/Tiptap';
 
 const auth = getAuth(firebase);
@@ -149,17 +155,18 @@ const EntryEditor = ({ entry, setEditEntry }: EntryEditorProps) => {
     return new Date(`${m}/${d}/${y}`);
   };
 
-  const [label, setLabel] = useState('a');
+  const [label, setLabel] = useState(entry.label);
   const handleChange = (event: { target: { value: string } }) => {
     setLabel(event.target.value);
   };
 
   const db = getFirestore(firebase);
+  const docRef = doc(db, 'entries', entry.id);
 
   const updateEntry = async () => {
     if (day && month && year) {
       const date = parseDate(day, month, year);
-      await setDoc(doc(db, 'entries', entry.id), {
+      await setDoc(docRef, {
         title,
         location,
         source,
@@ -171,10 +178,22 @@ const EntryEditor = ({ entry, setEditEntry }: EntryEditorProps) => {
     }
   };
 
+  const deleteEntry = async () => {
+    await deleteDoc(docRef);
+  };
+
   return (
     <>
       <div className={s.actionRow}>
-        <button className='mr-2' onClick={() => updateEntry()}>
+        <button className='mr-2' onClick={() => deleteEntry()}>
+          Löschen
+        </button>
+        <button
+          className='mr-2'
+          onClick={() => {
+            updateEntry();
+            setEditEntry(false);
+          }}>
           Speichern
         </button>
         <button onClick={() => setEditEntry(false)}>Abbrechen</button>
