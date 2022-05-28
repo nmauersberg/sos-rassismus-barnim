@@ -25,3 +25,8 @@
     transform: scale(1) translateX(0px);
   }
 }
+
+.actionRow {
+  display: flex;
+  justify-content: flex-end;
+}

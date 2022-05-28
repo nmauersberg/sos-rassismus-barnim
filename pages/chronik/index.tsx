@@ -52,7 +52,7 @@ const Chronik = () => {
     if (!entries) return;
 
     const raw = entries.docs.map((entry, index) => {
-      return entry.data() as _Entry;
+      return { id: entry.id, ...entry.data() } as _Entry;
     });
     const sorted = raw.sort(
       (a, b) => a.date.toDate().getTime() - b.date.toDate().getTime()

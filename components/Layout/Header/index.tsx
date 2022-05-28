@@ -51,6 +51,13 @@ export const Header = (): ReactElement => {
             <button
               className={cN('noStyleButton', s.menuEntry)}
               onClick={() => router.push('chronik')}>
+              Kontakt
+            </button>
+          </FadeIn>
+          <FadeIn orientation='right' delay={0.25}>
+            <button
+              className={cN('noStyleButton', s.menuEntry)}
+              onClick={() => router.push('chronik')}>
               Chroniken
             </button>
           </FadeIn>

@@ -1,5 +1,4 @@
-import type { NextPage } from 'next';
-import { Tiptap } from '../components/Editor/Tiptap';
+import type { GetServerSideProps, NextPage } from 'next';
 import { FadeIn, getIncrementor } from 'anima-react';
 import { Section } from '../components/ContentBuilder/Section';
 import { useContext } from 'react';
@@ -52,6 +51,14 @@ const Home: NextPage = () => {
         })}
     </>
   );
+};
+
+export const getServerSideProps: GetServerSideProps = async (context) => {
+  return {
+    props: {
+      test: 'Hello',
+    },
+  };
 };
 
 export default Home;

@@ -1,9 +1,16 @@
-import { Timestamp } from 'firebase/firestore';
-import { ReactElement, useRef } from 'react';
+import { ReactElement, SetStateAction, useState } from 'react';
 import parseHTML from 'html-react-parser';
 import s from './style.module.scss';
 import cN from 'classnames';
 import { useInView } from 'react-intersection-observer';
+import { Dropdown } from '../Dropdown';
+import { useAuthState } from 'react-firebase-hooks/auth';
+import firebase from '../../firebase/clientApp';
+import { getAuth } from 'firebase/auth';
+import { doc, getFirestore, setDoc, Timestamp } from 'firebase/firestore';
+import { TiptapNoMenu } from '../Editor/Tiptap';
+
+const auth = getAuth(firebase);
 
 export type _Entry = {
   id: string;
@@ -19,6 +26,9 @@ export type _Entry = {
 type EntryProps = { entry: _Entry };
 
 export const Entry = ({ entry }: EntryProps): ReactElement => {
+  const [editEntry, setEditEntry] = useState(false);
+  const [user] = useAuthState(auth);
+
   const { ref, inView } = useInView({
     threshold: 0.1,
     triggerOnce: true,
@@ -35,26 +45,212 @@ export const Entry = ({ entry }: EntryProps): ReactElement => {
         [s.notInView]: !inView,
       })}>
       <div className='p-4'>
-        <h2>{entry.title}</h2>
-        {parseHTML(entry.content)}
-        {entry.location && (
-          <>
-            <span>Ort: {entry.location}</span>
-            <br />
-          </>
+        {user && !editEntry && (
+          <div className={s.actionRow}>
+            <button onClick={() => setEditEntry(true)}>Bearbeiten</button>
+          </div>
         )}
-        {entry.source && (
-          <>
-            <span>Quelle: {entry.source}</span>
-            <br />
-            <br />
-          </>
+        {!editEntry ? (
+          <EntryContent entry={entry} />
+        ) : (
+          <EntryEditor entry={entry} setEditEntry={setEditEntry} />
         )}
-        {entry.extraContent && (
-          <span>Nachtrag: {parseHTML(entry.extraContent)}</span>
-        )}
-        {entry.label && <p>Kategorie: {entry.label}</p>}
       </div>
     </div>
+  );
+};
+
+type EntryContentProps = {
+  entry: _Entry;
+};
+
+const EntryContent = ({ entry }: EntryContentProps) => {
+  return (
+    <>
+      <h2>{entry.title}</h2>
+      {parseHTML(entry.content)}
+      {entry.location && (
+        <>
+          <span>Ort: {entry.location}</span>
+          <br />
+        </>
+      )}
+      {entry.source && (
+        <>
+          <span>Quelle: {entry.source}</span>
+          <br />
+          <br />
+        </>
+      )}
+      {entry.extraContent && (
+        <span>Nachtrag: {parseHTML(entry.extraContent)}</span>
+      )}
+      {entry.label && <p>Kategorie: {entry.label}</p>}
+    </>
+  );
+};
+
+const labelOptions = [
+  {
+    label: 'Verbale und physische Gewalt',
+    value: 'Verbale und physische Gewalt',
+  },
+  {
+    label: '„Mikroaggressionen“ - ausgrenzende Botschaften',
+    value: '„Mikroaggressionen“ - ausgrenzende Botschaften',
+  },
+  {
+    label: 'Rechte Propaganda und Sachbeschädigungen',
+    value: 'Rechte Propaganda und Sachbeschädigungen',
+  },
+  {
+    label: 'Strukturelle Probleme und Nachtrag aus Vorjahren',
+    value: 'Strukturelle Probleme und Nachtrag aus Vorjahren',
+  },
+];
+
+type EntryEditorProps = {
+  entry: _Entry;
+  setEditEntry: React.Dispatch<SetStateAction<boolean>>;
+};
+
+const EntryEditor = ({ entry, setEditEntry }: EntryEditorProps) => {
+  const [title, setTitle] = useState(entry.title);
+  const [location, setLocation] = useState(entry.location);
+  const [source, setSource] = useState(entry.source);
+  const [content, setContent] = useState(entry.content);
+  const [extraContent, setExtraContent] = useState(entry.extraContent || '');
+
+  const [day, setDay] = useState<number | undefined>(
+    entry.date.toDate().getDate()
+  );
+  const [month, setMonth] = useState<number | undefined>(
+    entry.date.toDate().getMonth() + 1
+  );
+  const [year, setYear] = useState<number | undefined>(
+    entry.date.toDate().getFullYear()
+  );
+
+  const handleCappedInput = (
+    val: number,
+    max: number,
+    set: React.Dispatch<SetStateAction<number | undefined>>
+  ) => {
+    if (!val) {
+      return set(undefined);
+    }
+    if (val <= max) {
+      return set(val);
+    }
+    return set(max);
+  };
+
+  const parseDate = (d: number, m: number, y: number) => {
+    return new Date(`${m}/${d}/${y}`);
+  };
+
+  const [label, setLabel] = useState('a');
+  const handleChange = (event: { target: { value: string } }) => {
+    setLabel(event.target.value);
+  };
+
+  const db = getFirestore(firebase);
+
+  const updateEntry = async () => {
+    if (day && month && year) {
+      const date = parseDate(day, month, year);
+      await setDoc(doc(db, 'entries', entry.id), {
+        title,
+        location,
+        source,
+        label,
+        content,
+        extraContent,
+        date: Timestamp.fromDate(date),
+      });
+    }
+  };
+
+  return (
+    <>
+      <div className={s.actionRow}>
+        <button className='mr-2' onClick={() => updateEntry()}>
+          Speichern
+        </button>
+        <button onClick={() => setEditEntry(false)}>Abbrechen</button>
+      </div>
+      <div className='mb-4'>
+        <label>Titel:</label>
+        <input
+          placeholder='Titel'
+          className='text-lg mb-2 w-full'
+          value={title}
+          onChange={(e) => setTitle(e.target.value)}
+        />
+      </div>
+      <div className='mt-2 mb-6'>
+        <label>Eintrag:</label>
+        <TiptapNoMenu content={content} updateContent={setContent} />
+      </div>
+      <div className='mt-2 mb-4'>
+        <label>Ort:</label>
+        <input
+          placeholder='Ort'
+          className='text-lg mb-2 w-full'
+          value={location}
+          onChange={(e) => setLocation(e.target.value)}
+        />
+      </div>
+      <div className='mt-2 mb-4'>
+        <label>Quelle:</label>
+        <input
+          placeholder='Quelle'
+          className='text-lg mb-2 w-full'
+          value={source}
+          onChange={(e) => setSource(e.target.value)}
+        />
+      </div>
+      <div className='my-2'>
+        <label>Nachtrag:</label>
+        <TiptapNoMenu content={extraContent} updateContent={setExtraContent} />
+      </div>
+      <div className='mt-6 mb-2 flex space-between'>
+        <Dropdown
+          label={'Kategorie:'}
+          value={label}
+          options={labelOptions}
+          onChange={handleChange}
+        />
+        <div className='pl-4'>
+          <label>Datum:</label>
+          <div className='w-full flex'>
+            <input
+              value={day}
+              onChange={(e) =>
+                handleCappedInput(parseInt(e.target.value), 31, setDay)
+              }
+              type='number'
+              className='text-lg w-16 mr-2'
+            />
+            <input
+              value={month}
+              onChange={(e) =>
+                handleCappedInput(parseInt(e.target.value), 31, setMonth)
+              }
+              type='number'
+              className='text-lg w-16 mr-2'
+            />
+            <input
+              value={year}
+              onChange={(e) =>
+                handleCappedInput(parseInt(e.target.value), 2100, setYear)
+              }
+              type='number'
+              className='text-lg w-24'
+            />
+          </div>
+        </div>
+      </div>
+    </>
   );
 };
