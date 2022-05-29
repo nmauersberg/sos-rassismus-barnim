@@ -97,7 +97,7 @@ const EntryContent = ({ entry }: EntryContentProps) => {
 };
 
 type EntryEditorProps = {
-  entry: _Entry;
+  entry?: _Entry;
   setEditEntry?: React.Dispatch<SetStateAction<boolean>>;
   setAddEntry?: React.Dispatch<SetStateAction<boolean>>;
 };
@@ -107,20 +107,20 @@ export const EntryEditor = ({
   setEditEntry,
   setAddEntry,
 }: EntryEditorProps) => {
-  const [title, setTitle] = useState(entry.title);
-  const [location, setLocation] = useState(entry.location);
-  const [source, setSource] = useState(entry.source);
-  const [content, setContent] = useState(entry.content);
-  const [extraContent, setExtraContent] = useState(entry.extraContent || '');
+  const [title, setTitle] = useState(entry?.title || '');
+  const [location, setLocation] = useState(entry?.location || '');
+  const [source, setSource] = useState(entry?.source || '');
+  const [content, setContent] = useState(entry?.content || '');
+  const [extraContent, setExtraContent] = useState(entry?.extraContent || '');
 
-  const [day, setDay] = useState<number | undefined>(
-    entry.date.toDate().getDate()
-  );
+  const entryDate = entry?.date.toDate();
+
+  const [day, setDay] = useState<number | undefined>(entryDate?.getDate());
   const [month, setMonth] = useState<number | undefined>(
-    entry.date.toDate().getMonth() + 1
+    entryDate ? entryDate?.getMonth() + 1 : undefined
   );
   const [year, setYear] = useState<number | undefined>(
-    entry.date.toDate().getFullYear()
+    entryDate?.getFullYear()
   );
 
   const handleCappedInput = (
@@ -141,18 +141,17 @@ export const EntryEditor = ({
     return new Date(`${m}/${d}/${y}`);
   };
 
-  const [label, setLabel] = useState(entry.label);
+  const [label, setLabel] = useState(entry?.label || '');
   const handleChange = (event: { target: { value: string } }) => {
     setLabel(event.target.value);
   };
 
   const db = getFirestore(firebase);
-  const docRef = doc(db, 'entries', entry.id);
 
   const updateEntry = async () => {
-    if (day && month && year) {
+    if (entry && day && month && year) {
       const date = parseDate(day, month, year);
-      await setDoc(docRef, {
+      await setDoc(doc(db, 'entries', entry.id), {
         title,
         location,
         source,
@@ -165,7 +164,13 @@ export const EntryEditor = ({
   };
 
   const handleDelete = async () => {
-    await deleteDoc(docRef);
+    if (setEditEntry) {
+      if (entry) {
+        await deleteDoc(doc(db, 'entries', entry.id));
+      }
+    } else if (setAddEntry) {
+      setAddEntry(false);
+    }
   };
 
   const handleSave = () => {
@@ -239,6 +244,7 @@ export const EntryEditor = ({
           <label>Datum:</label>
           <div className='w-full flex'>
             <input
+              placeholder='TT'
               value={day}
               onChange={(e) =>
                 handleCappedInput(parseInt(e.target.value), 31, setDay)
@@ -247,6 +253,7 @@ export const EntryEditor = ({
               className='text-lg w-16 mr-2'
             />
             <input
+              placeholder='MM'
               value={month}
               onChange={(e) =>
                 handleCappedInput(parseInt(e.target.value), 31, setMonth)
@@ -255,6 +262,7 @@ export const EntryEditor = ({
               className='text-lg w-16 mr-2'
             />
             <input
+              placeholder='JJJJ'
               value={year}
               onChange={(e) =>
                 handleCappedInput(parseInt(e.target.value), 2100, setYear)

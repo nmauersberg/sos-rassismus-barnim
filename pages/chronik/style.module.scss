@@ -5,6 +5,10 @@ $timelineWidth: 0.2rem;
 $dot-border-width: 0.1rem;
 $distanceFromTop: 1rem;
 
+.timelinePage {
+  position: relative;
+}
+
 .chronicles {
   width: 100%;
 }
@@ -116,4 +120,16 @@ $distanceFromTop: 1rem;
   to {
     opacity: 1;
   }
+}
+
+.actionRow {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.75rem;
+  display: flex;
+  gap: 0.5rem;
+}
+
+.entry {
+  background: white;
 }

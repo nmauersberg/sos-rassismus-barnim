@@ -1,4 +1,5 @@
 import s from './style.module.scss';
+import es from '../../components/Timeline/style.module.scss';
 import firebase from '../../firebase/clientApp';
 import { getAuth } from 'firebase/auth';
 import {
@@ -12,12 +13,12 @@ import {
 } from 'firebase/firestore';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { useCollection } from 'react-firebase-hooks/firestore';
-import { Entry, _Entry } from '../../components/Timeline/Entry';
+import { Entry, EntryEditor, _Entry } from '../../components/Timeline/Entry';
 import { FadeIn, getIncrementor } from 'anima-react';
 import { LoadingAnimation } from '../../components/LoadingAnimation/index';
 import cN from 'classnames';
 import { SpacerRow } from '../../components/Timeline/SpacerRow';
-import { useEffect, useState } from 'react';
+import { ReactElement, useEffect, useState } from 'react';
 
 const auth = getAuth(firebase);
 const db = getFirestore(firebase);
@@ -40,6 +41,7 @@ const updateEntry = async () => {
 
 const Chronik = () => {
   const [user] = useAuthState(auth);
+  const [addEntry, setAddEntry] = useState<boolean>(false);
   const [entries, loading, error] = useCollection(
     collection(getFirestore(firebase), 'entries'),
     {
@@ -67,41 +69,62 @@ const Chronik = () => {
   }
 
   return (
-    <div className={cN('pageWidth', s.chronicles)}>
-      <FadeIn delay={getDelay()}>
-        <SpacerRow />
-      </FadeIn>
-      {mappedEntries
-        ? mappedEntries.map((entry, index) => {
-            return (
-              <FadeIn delay={getDelay()} key={`${entry.id}-${index}`}>
-                <>
-                  <div className={s.chronicleRow}>
-                    <div className={s.dateDesktop}>
-                      <h3 className='m-0'>
-                        {entry.date.toDate().toLocaleDateString('de-DE')}
-                      </h3>
-                    </div>
-                    <div className={s.timeline}>
-                      <div className={s.timelineLine}></div>
-                      <div className={s.timelineDot}></div>
-                    </div>
-                    <div className={s.entryContainer}>
-                      <div className={s.dateMobile}>
-                        <h3 className='m-0'>
-                          {entry.date.toDate().toLocaleDateString('de-DE')}
-                        </h3>
-                      </div>
-                      <Entry entry={entry} />
-                    </div>
-                  </div>
-                  <SpacerRow />
-                </>
-              </FadeIn>
-            );
-          })
-        : null}
+    <div className={s.timelinePage}>
+      {user && !addEntry && (
+        <div className={s.actionRow}>
+          <button onClick={() => setAddEntry(true)}>Neuer Eintrag</button>
+        </div>
+      )}
+      <div className={cN('pageWidth', s.chronicles)}>
+        <FadeIn delay={getDelay()}>
+          <SpacerRow />
+        </FadeIn>
+        {addEntry && (
+          <EntryWrapper label={'Anlegen'}>
+            <div className={cN(es.entry, 'p-4')}>
+              <EntryEditor setAddEntry={setAddEntry} />
+            </div>
+          </EntryWrapper>
+        )}
+        {mappedEntries
+          ? mappedEntries.map((entry, index) => {
+              return (
+                <FadeIn delay={getDelay()} key={`${entry.id}-${index}`}>
+                  <EntryWrapper
+                    label={entry.date.toDate().toLocaleDateString('de-DE')}>
+                    <Entry entry={entry} />
+                  </EntryWrapper>
+                </FadeIn>
+              );
+            })
+          : null}
+      </div>
     </div>
+  );
+};
+
+type EntryWrapperProps = { label: string; children: ReactElement };
+
+const EntryWrapper = ({ label, children }: EntryWrapperProps) => {
+  return (
+    <>
+      <div className={s.chronicleRow}>
+        <div className={s.dateDesktop}>
+          <h3 className='m-0'>{label}</h3>
+        </div>
+        <div className={s.timeline}>
+          <div className={s.timelineLine}></div>
+          <div className={s.timelineDot}></div>
+        </div>
+        <div className={s.entryContainer}>
+          <div className={s.dateMobile}>
+            <h3 className='m-0'>{label}</h3>
+          </div>
+          {children}
+        </div>
+      </div>
+      <SpacerRow />
+    </>
   );
 };
 
