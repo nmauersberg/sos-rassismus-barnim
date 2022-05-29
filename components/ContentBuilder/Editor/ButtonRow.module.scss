@@ -9,8 +9,13 @@
   background-color: white;
 
   &:hover {
+    border: 1px solid #4e4e4e;
     background: #e7e7e7;
     cursor: pointer;
+    border-radius: 0;
+    outline: none;
+    border-right: none;
+    flex-grow: 1;
   }
 
   &:last-child {

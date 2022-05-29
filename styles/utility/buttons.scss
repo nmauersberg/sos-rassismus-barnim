@@ -11,3 +11,16 @@
     cursor: pointer;
   }
 }
+
+button {
+  background: white;
+  border: 1px solid black;
+  border-radius: 10px;
+  cursor: pointer;
+  padding: 0.15rem 0.5rem;
+
+  &:hover {
+    color: firebrick;
+    border: 1px solid firebrick;
+  }
+}

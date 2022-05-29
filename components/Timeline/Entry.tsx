@@ -91,36 +91,22 @@ const EntryContent = ({ entry }: EntryContentProps) => {
       {entry.extraContent && (
         <span>Nachtrag: {parseHTML(entry.extraContent)}</span>
       )}
-      {entry.label && <p>Kategorie: {entry.label}</p>}
+      {entry.label && <p>Kategorie: {mapLabelOptions(entry.label)}</p>}
     </>
   );
 };
 
-const labelOptions = [
-  {
-    label: 'Verbale und physische Gewalt',
-    value: 'Verbale und physische Gewalt',
-  },
-  {
-    label: '„Mikroaggressionen“ - ausgrenzende Botschaften',
-    value: '„Mikroaggressionen“ - ausgrenzende Botschaften',
-  },
-  {
-    label: 'Rechte Propaganda und Sachbeschädigungen',
-    value: 'Rechte Propaganda und Sachbeschädigungen',
-  },
-  {
-    label: 'Strukturelle Probleme und Nachtrag aus Vorjahren',
-    value: 'Strukturelle Probleme und Nachtrag aus Vorjahren',
-  },
-];
-
 type EntryEditorProps = {
   entry: _Entry;
-  setEditEntry: React.Dispatch<SetStateAction<boolean>>;
+  setEditEntry?: React.Dispatch<SetStateAction<boolean>>;
+  setAddEntry?: React.Dispatch<SetStateAction<boolean>>;
 };
 
-const EntryEditor = ({ entry, setEditEntry }: EntryEditorProps) => {
+export const EntryEditor = ({
+  entry,
+  setEditEntry,
+  setAddEntry,
+}: EntryEditorProps) => {
   const [title, setTitle] = useState(entry.title);
   const [location, setLocation] = useState(entry.location);
   const [source, setSource] = useState(entry.source);
@@ -178,25 +164,34 @@ const EntryEditor = ({ entry, setEditEntry }: EntryEditorProps) => {
     }
   };
 
-  const deleteEntry = async () => {
+  const handleDelete = async () => {
     await deleteDoc(docRef);
+  };
+
+  const handleSave = () => {
+    if (setEditEntry) {
+      updateEntry();
+      setEditEntry(false);
+    } else if (setAddEntry) {
+      console.log('Add Entry');
+      setAddEntry(false);
+    }
+  };
+
+  const handleCancel = () => {
+    if (setEditEntry) {
+      setEditEntry(false);
+    } else if (setAddEntry) {
+      setAddEntry(false);
+    }
   };
 
   return (
     <>
       <div className={s.actionRow}>
-        <button className='mr-2' onClick={() => deleteEntry()}>
-          Löschen
-        </button>
-        <button
-          className='mr-2'
-          onClick={() => {
-            updateEntry();
-            setEditEntry(false);
-          }}>
-          Speichern
-        </button>
-        <button onClick={() => setEditEntry(false)}>Abbrechen</button>
+        <button onClick={() => handleDelete()}>Löschen</button>
+        <button onClick={() => handleSave()}>Speichern</button>
+        <button onClick={() => handleCancel()}>Abbrechen</button>
       </div>
       <div className='mb-4'>
         <label>Titel:</label>
@@ -272,4 +267,36 @@ const EntryEditor = ({ entry, setEditEntry }: EntryEditorProps) => {
       </div>
     </>
   );
+};
+
+const labelOptions = [
+  {
+    label: 'Verbale und physische Gewalt',
+    value: 'cat1',
+  },
+  {
+    label: '"Mikroaggressionen" - ausgrenzende Botschaften',
+    value: 'cat2',
+  },
+  {
+    label: 'Rechte Propaganda und Sachbeschädigungen',
+    value: 'cat3',
+  },
+  {
+    label: 'Strukturelle Probleme und Nachtrag aus Vorjahren',
+    value: 'cat4',
+  },
+];
+
+const mapLabelOptions = (val: string) => {
+  switch (val) {
+    case 'cat1':
+      return labelOptions[0].label;
+    case 'cat2':
+      return labelOptions[1].label;
+    case 'cat3':
+      return labelOptions[2].label;
+    case 'cat4':
+      return labelOptions[3].label;
+  }
 };

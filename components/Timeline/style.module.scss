@@ -1,6 +1,6 @@
 .entry {
   margin: 0 auto;
-
+  position: relative;
   width: 100%;
   background-color: white;
   color: black;
@@ -27,6 +27,9 @@
 }
 
 .actionRow {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.75rem;
   display: flex;
-  justify-content: flex-end;
+  gap: 0.5rem;
 }
