@@ -87,16 +87,18 @@ const Chronik = () => {
           </EntryWrapper>
         )}
         {mappedEntries
-          ? mappedEntries.map((entry, index) => {
-              return (
-                <FadeIn delay={getDelay()} key={`${entry.id}-${index}`}>
-                  <EntryWrapper
-                    label={entry.date.toDate().toLocaleDateString('de-DE')}>
-                    <Entry entry={entry} />
-                  </EntryWrapper>
-                </FadeIn>
-              );
-            })
+          ? mappedEntries
+              .filter((e) => e.date.toDate().getFullYear() === 2021)
+              .map((entry, index) => {
+                return (
+                  <FadeIn delay={getDelay()} key={`${entry.id}-${index}`}>
+                    <EntryWrapper
+                      label={entry.date.toDate().toLocaleDateString('de-DE')}>
+                      <Entry entry={entry} />
+                    </EntryWrapper>
+                  </FadeIn>
+                );
+              })
           : null}
       </div>
     </div>

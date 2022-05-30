@@ -8,6 +8,8 @@ import { useAuthState } from 'react-firebase-hooks/auth';
 import firebase from '../../firebase/clientApp';
 import { getAuth } from 'firebase/auth';
 import {
+  addDoc,
+  collection,
   deleteDoc,
   doc,
   getFirestore,
@@ -15,6 +17,7 @@ import {
   Timestamp,
 } from 'firebase/firestore';
 import { TiptapNoMenu } from '../Editor/Tiptap';
+import toast from 'react-hot-toast';
 
 const auth = getAuth(firebase);
 
@@ -149,7 +152,7 @@ export const EntryEditor = ({
   const db = getFirestore(firebase);
 
   const updateEntry = async () => {
-    if (entry && day && month && year) {
+    if (entry && setEditEntry && day && month && year) {
       const date = parseDate(day, month, year);
       await setDoc(doc(db, 'entries', entry.id), {
         title,
@@ -160,6 +163,29 @@ export const EntryEditor = ({
         extraContent,
         date: Timestamp.fromDate(date),
       });
+      toast.success('Eintrag gespeichert!');
+      setEditEntry(false);
+    } else {
+      toast.error('Bitte ein Datum angeben!');
+    }
+  };
+
+  const addEntry = async () => {
+    if (day && month && year && setAddEntry) {
+      const date = parseDate(day, month, year);
+      await addDoc(collection(db, 'entries'), {
+        title,
+        location,
+        source,
+        label,
+        content,
+        extraContent,
+        date: Timestamp.fromDate(date),
+      });
+      toast.success('Eintrag hinzugefügt!');
+      setAddEntry(false);
+    } else {
+      toast.error('Bitte ein Datum angeben!');
     }
   };
 
@@ -167,6 +193,7 @@ export const EntryEditor = ({
     if (setEditEntry) {
       if (entry) {
         await deleteDoc(doc(db, 'entries', entry.id));
+        toast.success('Eintrag gelöscht!');
       }
     } else if (setAddEntry) {
       setAddEntry(false);
@@ -176,10 +203,8 @@ export const EntryEditor = ({
   const handleSave = () => {
     if (setEditEntry) {
       updateEntry();
-      setEditEntry(false);
     } else if (setAddEntry) {
-      console.log('Add Entry');
-      setAddEntry(false);
+      addEntry();
     }
   };
 
@@ -256,7 +281,7 @@ export const EntryEditor = ({
               placeholder='MM'
               value={month}
               onChange={(e) =>
-                handleCappedInput(parseInt(e.target.value), 31, setMonth)
+                handleCappedInput(parseInt(e.target.value), 12, setMonth)
               }
               type='number'
               className='text-lg w-16 mr-2'

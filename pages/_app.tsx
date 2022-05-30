@@ -3,6 +3,7 @@ import type { AppProps } from 'next/app';
 import Head from 'next/head';
 import { Layout } from '../components/Layout';
 import { AuthProvider } from '../context/AuthContext';
+import { Toaster } from 'react-hot-toast';
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
@@ -16,6 +17,7 @@ function MyApp({ Component, pageProps }: AppProps) {
               content='Meta description for the Home page'
             />
           </Head>
+          <Toaster />
           <Component {...pageProps} />
         </>
       </Layout>
