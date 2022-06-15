@@ -8,7 +8,7 @@ import { collection, getFirestore } from 'firebase/firestore';
 import firebase from '../firebase/clientApp';
 import { LoadingAnimation } from '../components/LoadingAnimation';
 
-const Home: NextPage = () => {
+const Kontakt: NextPage = () => {
   const { editPage } = useContext(AuthContext);
   const [documents, loading, error] = useCollection(
     collection(getFirestore(firebase), 'sections'),
@@ -38,7 +38,7 @@ const Home: NextPage = () => {
         !loading &&
         sections &&
         sections
-          .filter((section) => section.page === 'start')
+          .filter((section) => section.page === 'contact')
           .map((section) => {
             return (
               <FadeIn
@@ -63,4 +63,4 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   };
 };
 
-export default Home;
+export default Kontakt;
