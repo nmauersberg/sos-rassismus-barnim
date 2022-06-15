@@ -2,6 +2,7 @@ import { useEditor, EditorContent, Editor } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
 import s from './ButtonRow.module.scss';
 import cN from 'classnames';
+import Link from '@tiptap/extension-link';
 
 type TiptapProps = {
   content: string;
@@ -10,7 +11,13 @@ type TiptapProps = {
 
 export const Tiptap = ({ content, updateContent }: TiptapProps) => {
   const editor = useEditor({
-    extensions: [StarterKit],
+    extensions: [
+      StarterKit,
+      Link.configure({
+        // protocols: ['mailto'],
+        autolink: false,
+      }),
+    ],
     content,
     onUpdate({ editor }) {
       updateContent(editor.getHTML());
@@ -42,8 +49,7 @@ const MenuBar = ({ editor }: { editor: Editor | null }) => {
       </button> */}
       <button
         onClick={() => editor.chain().focus().toggleBold().run()}
-        className={cN(s.rowButton, editor.isActive('bold') ? 'is-active' : '')}
-      >
+        className={cN(s.rowButton, editor.isActive('bold') ? 'is-active' : '')}>
         bold
       </button>
       <button
@@ -51,8 +57,7 @@ const MenuBar = ({ editor }: { editor: Editor | null }) => {
         className={cN(
           s.rowButton,
           editor.isActive('italic') ? 'is-active' : ''
-        )}
-      >
+        )}>
         italic
       </button>
       {/* <button
@@ -83,8 +88,7 @@ const MenuBar = ({ editor }: { editor: Editor | null }) => {
         className={cN(
           s.rowButton,
           editor.isActive('paragraph') ? 'is-active' : ''
-        )}
-      >
+        )}>
         paragraph
       </button>
       <button
@@ -92,8 +96,7 @@ const MenuBar = ({ editor }: { editor: Editor | null }) => {
         className={cN(
           s.rowButton,
           editor.isActive('heading', { level: 1 }) ? 'is-active' : ''
-        )}
-      >
+        )}>
         h1
       </button>
       <button
@@ -101,8 +104,7 @@ const MenuBar = ({ editor }: { editor: Editor | null }) => {
         className={cN(
           s.rowButton,
           editor.isActive('heading', { level: 2 }) ? 'is-active' : ''
-        )}
-      >
+        )}>
         h2
       </button>
       <button
@@ -110,8 +112,7 @@ const MenuBar = ({ editor }: { editor: Editor | null }) => {
         className={cN(
           s.rowButton,
           editor.isActive('heading', { level: 3 }) ? 'is-active' : ''
-        )}
-      >
+        )}>
         h3
       </button>
       <button
@@ -119,8 +120,7 @@ const MenuBar = ({ editor }: { editor: Editor | null }) => {
         className={cN(
           s.rowButton,
           editor.isActive('heading', { level: 4 }) ? 'is-active' : ''
-        )}
-      >
+        )}>
         h4
       </button>
       {/* <button

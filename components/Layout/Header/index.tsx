@@ -51,7 +51,7 @@ export const Header = (): ReactElement => {
             <button
               className={cN('noStyleButton', s.menuEntry)}
               onClick={() => router.push('kontakt')}>
-              Kontakt
+              Kontakt & Links
             </button>
           </FadeIn>
           <FadeIn orientation='right' delay={0.25}>

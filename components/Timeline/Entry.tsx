@@ -77,6 +77,13 @@ const EntryContent = ({ entry }: EntryContentProps) => {
   return (
     <>
       <h2>{entry.title}</h2>
+      {entry.label && (
+        <div className={s.categoryRow}>
+          {/* <p className={s.categoryText}>Kategorie: </p> */}
+          <div className={s.categoryTag}>{mapLabelOptions(entry.label)}</div>
+        </div>
+      )}
+      <br />
       {parseHTML(entry.content)}
       {entry.location && (
         <>
@@ -94,7 +101,6 @@ const EntryContent = ({ entry }: EntryContentProps) => {
       {entry.extraContent && (
         <span>Nachtrag: {parseHTML(entry.extraContent)}</span>
       )}
-      {entry.label && <p>Kategorie: {mapLabelOptions(entry.label)}</p>}
     </>
   );
 };
