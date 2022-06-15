@@ -144,7 +144,7 @@ export const EntryEditor = ({
     return new Date(`${m}/${d}/${y}`);
   };
 
-  const [label, setLabel] = useState(entry?.label || '');
+  const [label, setLabel] = useState(entry?.label || labelOptions[0].value);
   const handleChange = (event: { target: { value: string } }) => {
     setLabel(event.target.value);
   };

@@ -26,6 +26,7 @@ export type Section = {
   layout: Layout;
   colorScheme: ColorScheme;
   render: SectionElement[];
+  page: string;
 };
 
 export type SectionElement =
