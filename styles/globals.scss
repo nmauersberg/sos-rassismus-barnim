@@ -3,6 +3,7 @@
 @import './utility/text.scss';
 @import './utility/misc.scss';
 @import './utility/flex.scss';
+@import './utility/grid.scss';
 @import './utility/position.scss';
 @import './utility/colors.scss';
 @import './utility/buttons.scss';
@@ -39,12 +40,16 @@ h2 {
   border: none;
   background: none;
   cursor: pointer;
+  padding: 0;
+  margin: 0;
 
   &:hover {
     outline: none;
     border: none;
     background: none;
     cursor: pointer;
+    padding: 0;
+    margin: 0;
   }
 }
 

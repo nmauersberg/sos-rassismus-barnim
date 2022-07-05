@@ -4,14 +4,35 @@ import s from './style.module.scss';
 import { useRouter } from 'next/router';
 import cN from 'classnames';
 import { AuthContext } from '../../../context/AuthContext';
-import { mdiCogOutline } from '@mdi/js';
-import { NoSsr } from '../../ContentBuilder/Util/NoSsr';
-import Icon from '@mdi/react';
+import { AdminMenu } from './AdminMenu';
+import { Dropdown } from './Dropdown';
+import { SettingsContext } from '../../../context/SettingsContext';
+import { useCollection } from 'react-firebase-hooks/firestore';
+import { getFirestore, collection } from 'firebase/firestore';
+import firebase from '../../../firebase/clientApp';
 
 export const Header = (): ReactElement => {
-  const { user, toggleEditPage, editPage } = useContext(AuthContext);
+  const { user } = useContext(AuthContext);
+  const { settings } = useContext(SettingsContext);
+
   const router = useRouter();
   const getTitleDelay = getIncrementor(0, 0.02);
+
+  const [entries] = useCollection(
+    collection(getFirestore(firebase), 'entries'),
+    {
+      snapshotListenOptions: { includeMetadataChanges: true },
+    }
+  );
+  const availableYears = entries
+    ? [
+        ...new Set(
+          entries.docs.map((e) => e.data().date.toDate().getFullYear())
+        ),
+      ].sort()
+    : [];
+
+  const years = user ? availableYears : settings.publishedYears;
 
   return (
     <div className={s.header}>
@@ -50,35 +71,35 @@ export const Header = (): ReactElement => {
           <FadeIn orientation='right' delay={0.25}>
             <button
               className={cN('noStyleButton', s.menuEntry)}
-              onClick={() => router.push('kontakt')}>
+              onClick={() => router.push('/kontakt')}>
               Kontakt & Links
             </button>
           </FadeIn>
-          <FadeIn orientation='right' delay={0.25}>
-            <button
-              className={cN('noStyleButton', s.menuEntry)}
-              onClick={() => router.push('chronik')}>
-              Chroniken
-            </button>
-          </FadeIn>
+          <Dropdown
+            label={
+              <FadeIn orientation='right' delay={0.25}>
+                <button
+                  className={cN('noStyleButton', s.menuEntry)}
+                  // onClick={() => router.push('chronik')}
+                >
+                  Chroniken
+                </button>
+              </FadeIn>
+            }>
+            {years.map((year) => {
+              return (
+                <div key={year}>
+                  <button
+                    className={cN('noStyleButton', s.menuEntry)}
+                    onClick={() => router.push(`/chronik/${year}`)}>
+                    Chronik {year}
+                  </button>
+                </div>
+              );
+            })}
+          </Dropdown>
+          {user && <AdminMenu />}
         </div>
-        {user && (
-          <FadeIn orientation='right' delay={0.25}>
-            <button
-              className={cN('noStyleButton', s.menuEntry)}
-              onClick={() => toggleEditPage()}>
-              <NoSsr>
-                <Icon
-                  className='pt-2'
-                  path={mdiCogOutline}
-                  size={1.5}
-                  color={editPage ? 'firebrick' : 'black'}
-                  title={'Seite bearbeiten'}
-                />
-              </NoSsr>
-            </button>
-          </FadeIn>
-        )}
       </div>
     </div>
   );

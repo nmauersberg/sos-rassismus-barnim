@@ -13,34 +13,23 @@ import {
 } from 'firebase/firestore';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { useCollection } from 'react-firebase-hooks/firestore';
-import { Entry, EntryEditor, _Entry } from '../../components/Timeline/Entry';
+import { Entry, _Entry } from '../../components/Timeline/Entry';
 import { FadeIn, getIncrementor } from 'anima-react';
 import { LoadingAnimation } from '../../components/LoadingAnimation/index';
 import cN from 'classnames';
 import { SpacerRow } from '../../components/Timeline/SpacerRow';
-import { ReactElement, useEffect, useState } from 'react';
+import { ReactElement, useContext, useEffect, useState } from 'react';
+import { useRouter } from 'next/router';
+import { updateDocument } from '../../firebase/docUtils';
+import { EntryEditor } from '../../components/Timeline/EntryEditor';
+import { SettingsContext } from '../../context/SettingsContext';
 
 const auth = getAuth(firebase);
-const db = getFirestore(firebase);
-
-const addEntry = async () => {
-  await addDoc(collection(db, 'entries'), {
-    title: 'Another Test 6',
-    content: '<h2>Hello hello?</h2>',
-    date: serverTimestamp() as Timestamp,
-  });
-};
-
-const updateEntry = async () => {
-  await setDoc(doc(db, 'entries', '<idOfDocToUpdate>'), {
-    title: 'Another Test...',
-    content: '<h2>Hello hello?</h2>',
-    date: serverTimestamp() as Timestamp,
-  });
-};
 
 const Chronik = () => {
+  const router = useRouter();
   const [user] = useAuthState(auth);
+  const { settings } = useContext(SettingsContext);
   const [addEntry, setAddEntry] = useState<boolean>(false);
   const [entries, loading, error] = useCollection(
     collection(getFirestore(firebase), 'entries'),
@@ -68,14 +57,45 @@ const Chronik = () => {
     return <LoadingAnimation />;
   }
 
+  // const updateEntries = () => {
+  //   mappedEntries.map(async (e) => {
+  //     const transformed = { ...e };
+  //     if (e.extraContent && typeof e.extraContent === 'string') {
+  //       transformed.extraContent = [e.extraContent];
+  //     } else {
+  //       transformed.extraContent = [];
+  //     }
+  //     transformed.title.trim();
+  //     // await updateEntry('entries', transformed);
+  //     console.log(e);
+  //   });
+  // };
+
+  const selectedYear =
+    typeof router.query.year === 'string' ? parseInt(router.query.year) : 2021;
+
+  const pageEntries =
+    !user && !settings.publishedYears.includes(selectedYear)
+      ? []
+      : mappedEntries.filter(
+          (e) => e.date.toDate().getFullYear() === selectedYear
+        );
+
+  if (!pageEntries || pageEntries.length === 0) {
+    return (
+      <h2 className={'text-center m-8'}>Keine Einträge für {selectedYear}</h2>
+    );
+  }
+
   return (
     <div className={s.timelinePage}>
-      {user && !addEntry && (
-        <div className={s.actionRow}>
-          <button onClick={() => setAddEntry(true)}>Neuer Eintrag</button>
-        </div>
-      )}
       <div className={cN('pageWidth', s.chronicles)}>
+        {user && !addEntry && (
+          <div className={s.actionRow}>
+            <button onClick={() => setAddEntry(true)}>Neuer Eintrag</button>
+            {/* <button onClick={() => updateEntries()}>Update Entries</button> */}
+          </div>
+        )}
         <FadeIn delay={getDelay()}>
           <SpacerRow />
         </FadeIn>
@@ -86,20 +106,16 @@ const Chronik = () => {
             </div>
           </EntryWrapper>
         )}
-        {mappedEntries
-          ? mappedEntries
-              .filter((e) => e.date.toDate().getFullYear() === 2021)
-              .map((entry, index) => {
-                return (
-                  <FadeIn delay={getDelay()} key={`${entry.id}-${index}`}>
-                    <EntryWrapper
-                      label={entry.date.toDate().toLocaleDateString('de-DE')}>
-                      <Entry entry={entry} />
-                    </EntryWrapper>
-                  </FadeIn>
-                );
-              })
-          : null}
+        {pageEntries.map((entry, index) => {
+          return (
+            <FadeIn delay={getDelay()} key={`${entry.id}-${index}`}>
+              <EntryWrapper
+                label={entry.date.toDate().toLocaleDateString('de-DE')}>
+                <Entry entry={entry} />
+              </EntryWrapper>
+            </FadeIn>
+          );
+        })}
       </div>
     </div>
   );

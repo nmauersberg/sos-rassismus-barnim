@@ -1,9 +1,10 @@
+import classNames from 'classnames';
 import { ReactElement } from 'react';
 import s from '../../pages/chronik/style.module.scss';
 
 export const SpacerRow = (): ReactElement => {
   return (
-    <div className={s.chronicleEmptyRow}>
+    <div className={classNames(s.chronicleEmptyRow, 'pageWidth')}>
       <div className={s.dateDesktop}>
         <h3 className='m-0'></h3>
       </div>

@@ -1,3 +1,5 @@
+import { Category } from '../context/SettingsContext';
+
 type Option = {
   value: string;
   label: string;
@@ -6,7 +8,7 @@ type Option = {
 type DropdownProps = {
   label: string;
   value: string | undefined;
-  options: Option[];
+  options: Category[];
   onChange: (event: { target: { value: string } }) => void;
 };
 
