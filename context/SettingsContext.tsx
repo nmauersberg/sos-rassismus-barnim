@@ -39,9 +39,14 @@ const defaultSettings: Settings = {
       color: '#3A3042',
     },
     {
-      label: 'Strukturelle Probleme und Nachtrag aus Vorjahren',
+      label: 'Struktureller / Institutioneller Rassismus',
       value: 'cat4',
       color: '#6279B8',
+    },
+    {
+      label: 'Menschliche Einblicke',
+      value: 'cat5',
+      color: '#A188A6',
     },
   ],
 };
