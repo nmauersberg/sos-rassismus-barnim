@@ -3,17 +3,27 @@ import s from './style.module.scss';
 export const tagColors: TagColor[] = [
   '#3A3042',
   '#539987',
+  '#0B6E4F',
   '#B22222',
   '#6279B8',
+  '#011638',
   '#A188A6',
+  '#FF8600',
+  '#363537',
+  '#071013',
 ];
 
 export type TagColor =
   | '#3A3042'
   | '#539987'
   | '#B22222'
+  | '#0B6E4F'
   | '#6279B8'
-  | '#A188A6';
+  | '#011638'
+  | '#A188A6'
+  | '#FF8600'
+  | '#363537'
+  | '#071013';
 
 type TagProps = {
   label: string;

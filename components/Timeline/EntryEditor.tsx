@@ -194,9 +194,7 @@ export const EntryEditor = ({
         />
       </div>
       <div className='mb-6'>
-        <label>
-          Kategorie (<span style={{ color: 'firebrick' }}>*</span>):
-        </label>
+        <label>Kategorie (optional):</label>
         <Select
           isMulti
           defaultValue={selectedCategories}
