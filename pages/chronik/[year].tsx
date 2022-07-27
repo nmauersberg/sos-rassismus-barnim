@@ -76,12 +76,18 @@ const Chronik = () => {
       ? parseInt(router.query.year)
       : 'alle-jahre';
 
+  const publicEntries = user
+    ? mappedEntries
+    : mappedEntries.filter((e) =>
+        settings.publishedYears.includes(e.date.toDate().getFullYear())
+      );
+
   const pageEntries =
     !user &&
     typeof selectedYear === 'number' &&
     !settings.publishedYears.includes(selectedYear)
       ? []
-      : mappedEntries.filter((e) =>
+      : publicEntries.filter((e) =>
           selectedYear === 'alle-jahre'
             ? true
             : e.date.toDate().getFullYear() === selectedYear
