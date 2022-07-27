@@ -50,6 +50,7 @@ export const EntryEditor = ({
   const [location, setLocation] = useState(entry.location);
   const [source, setSource] = useState(entry.source);
   const [content, setContent] = useState(entry.content);
+  const [spliceExtraContent, setSpliceExtraContent] = useState <number>(0)
   const [extraContent, setExtraContent] = useState<Array<string>>(
     entry.extraContent
   );
@@ -241,11 +242,13 @@ export const EntryEditor = ({
       <label>Nachträge (optional):</label>
       {extraContent.map((extra, index) => (
         <ExtraContent
-          key={extra.substring(0, 10) + index}
+          key={'static' + index + spliceExtraContent}
           extra={extra}
           index={index}
           extraContent={extraContent}
           setExtraContent={setExtraContent}
+          spliceExtraContent={spliceExtraContent}
+          setSpliceExtraContent={setSpliceExtraContent}
         />
       ))}
       <div>

@@ -6,37 +6,41 @@ type ExtraContentProps = {
   setExtraContent: React.Dispatch<SetStateAction<string[]>>;
   index: number;
   extra: string;
+  spliceExtraContent: number;
+  setSpliceExtraContent: React.Dispatch<SetStateAction<number>>;
 };
 
 export const ExtraContent = ({
   extraContent,
   setExtraContent,
   index,
-  extra: _extra,
+  extra,
+  spliceExtraContent,
+  setSpliceExtraContent,
 }: ExtraContentProps) => {
-  const [extra, setExtra] = useState(_extra);
-
-  useEffect(() => {
-    const update = [...extraContent];
-    update[index] = extra;
-    setExtraContent(update);
-  }, [extra]);
+  const updateExtra = (extra: string) => {
+    const updated = extraContent.map((el, i) => {
+      return i === index ? extra : el;
+    });
+    setExtraContent(updated);
+  };
 
   const removeContent = (index: number) => {
+    setSpliceExtraContent(spliceExtraContent + 1);
     const update = [...extraContent];
     update.splice(index, 1);
     setExtraContent(update);
   };
 
   return (
-    <div className='my-2' key={index}>
+    <div className='my-2'>
       <div className='mb-1'>
         <label>Nachtrag {index + 1}:</label>
         <button className='ml-2' onClick={() => removeContent(index)}>
           Nachtrag {index + 1} entfernen
         </button>
       </div>
-      <TiptapNoMenu content={extra} updateContent={setExtra} />
+      <TiptapNoMenu content={extra} updateContent={updateExtra} />
     </div>
   );
 };
