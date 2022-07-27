@@ -2,7 +2,9 @@ import { useCategories } from '../../hooks/useCategories';
 import { Tag } from '../Tag';
 import parseHTML from 'html-react-parser';
 import { _Entry } from './Entry';
-import s from './style.module.scss';
+import { generateHTML } from '@tiptap/react';
+import StarterKit from '@tiptap/starter-kit';
+import { NoSsr } from '../ContentBuilder/Util/NoSsr';
 
 type EntryContentProps = {
   entry: _Entry;
@@ -11,6 +13,10 @@ type EntryContentProps = {
 export const EntryContent = ({ entry }: EntryContentProps) => {
   const [, mapCategory] = useCategories();
   const entryCategories = entry.categories.map(mapCategory);
+
+  // const output = useMemo(() => {
+  //   return generateHTML(json, [StarterKit]);
+  // }, [json]);
 
   return (
     <>
@@ -21,7 +27,13 @@ export const EntryContent = ({ entry }: EntryContentProps) => {
         ))}
       </div>
       <br />
-      {parseHTML(entry.content)}
+      <NoSsr>
+        <>
+          {typeof entry.content === 'string'
+            ? parseHTML(entry.content)
+            : generateHTML(entry.content, [StarterKit])}
+        </>
+      </NoSsr>
       {entry.location && (
         <>
           <span>Ort: {entry.location}</span>

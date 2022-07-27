@@ -8,15 +8,15 @@ import { getAuth } from 'firebase/auth';
 import { Timestamp } from 'firebase/firestore';
 import { EntryEditor } from './EntryEditor';
 import { EntryContent } from './EntryContent';
+import { JSONContent } from '@tiptap/react';
 
 const auth = getAuth(firebase);
 
 export type _Entry = {
   id: string;
   date: Timestamp;
-
   title: string;
-  content: string;
+  content: string | JSONContent;
   extraContent: string[];
   categories: string[];
   location?: string;

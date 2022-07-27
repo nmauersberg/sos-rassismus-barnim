@@ -1,9 +1,9 @@
-import { useEditor, EditorContent } from '@tiptap/react';
+import { useEditor, EditorContent, JSONContent } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
 import s from './style.module.scss';
 
 type TiptapNoMenuProps = {
-  content: string;
+  content: string | JSONContent;
   updateContent: (content: string) => void;
 };
 
@@ -15,6 +15,8 @@ export const TiptapNoMenu = ({ content, updateContent }: TiptapNoMenuProps) => {
       updateContent(editor.getHTML());
     },
   });
+
+  console.log(editor?.getJSON());
 
   return (
     <div>
