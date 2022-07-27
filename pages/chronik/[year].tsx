@@ -72,13 +72,19 @@ const Chronik = () => {
   // };
 
   const selectedYear =
-    typeof router.query.year === 'string' ? parseInt(router.query.year) : 2021;
+    typeof router.query.year === 'string' && router.query.year !== 'alle-jahre'
+      ? parseInt(router.query.year)
+      : 'alle-jahre';
 
   const pageEntries =
-    !user && !settings.publishedYears.includes(selectedYear)
+    !user &&
+    typeof selectedYear === 'number' &&
+    !settings.publishedYears.includes(selectedYear)
       ? []
-      : mappedEntries.filter(
-          (e) => e.date.toDate().getFullYear() === selectedYear
+      : mappedEntries.filter((e) =>
+          selectedYear === 'alle-jahre'
+            ? true
+            : e.date.toDate().getFullYear() === selectedYear
         );
 
   if (!pageEntries || pageEntries.length === 0) {

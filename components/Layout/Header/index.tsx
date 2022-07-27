@@ -86,17 +86,28 @@ export const Header = (): ReactElement => {
                 </button>
               </FadeIn>
             }>
-            {years.map((year) => {
-              return (
-                <div key={year}>
+            <>
+              {years.map((year) => {
+                return (
+                  <div key={year}>
+                    <button
+                      className={cN('noStyleButton', s.menuEntry)}
+                      onClick={() => router.push(`/chronik/${year}`)}>
+                      <span>Chronik {year}</span>
+                    </button>
+                  </div>
+                );
+              })}
+              {years.length > 1 && (
+                <div>
                   <button
                     className={cN('noStyleButton', s.menuEntry)}
-                    onClick={() => router.push(`/chronik/${year}`)}>
-                    Chronik {year}
+                    onClick={() => router.push(`/chronik/alle-jahre`)}>
+                    <span>Alle Jahre</span>
                   </button>
                 </div>
-              );
-            })}
+              )}
+            </>
           </Dropdown>
           {user && <AdminMenu />}
         </div>
