@@ -1,5 +1,8 @@
-import { createContext, useState } from 'react';
+import { doc, getDoc, getFirestore, setDoc } from 'firebase/firestore';
+import { createContext, useEffect, useState } from 'react';
+import toast from 'react-hot-toast';
 import { TagColor } from '../components/Tag';
+import firebase from '../firebase/clientApp';
 import Settings from '../pages/einstellungen';
 
 export type Category = {
@@ -20,35 +23,9 @@ type SettingsContext = {
 };
 
 const defaultSettings: Settings = {
-  pages: ['start', 'einstellungen', 'kontakt', 'chronik', 'login'],
-  publishedYears: [2021],
-  categories: [
-    {
-      label: 'Verbale und physische Gewalt',
-      value: 'cat1',
-      color: '#B22222',
-    },
-    {
-      label: '"Mikroaggressionen" - ausgrenzende Botschaften',
-      value: 'cat2',
-      color: '#539987',
-    },
-    {
-      label: 'Rechte Propaganda und Sachbeschädigungen',
-      value: 'cat3',
-      color: '#3A3042',
-    },
-    {
-      label: 'Struktureller / Institutioneller Rassismus',
-      value: 'cat4',
-      color: '#6279B8',
-    },
-    {
-      label: 'Menschliche Einblicke',
-      value: 'cat5',
-      color: '#A188A6',
-    },
-  ],
+  pages: [],
+  publishedYears: [],
+  categories: [],
 };
 
 const defaultContext: SettingsContext = {
@@ -58,10 +35,31 @@ const defaultContext: SettingsContext = {
 
 export const SettingsContext = createContext<SettingsContext>(defaultContext);
 
+const db = getFirestore(firebase);
+
+const getSettings = async (): Promise<Settings> => {
+  const docRef = doc(db, 'settings', '4VotbNdMDI1TcNr13CLu');
+  const docSnap = await getDoc(docRef);
+  return docSnap.data() as Settings;
+};
+
 export function SettingsProvider({ children }: any) {
   const [settings, setSettings] = useState<Settings>(defaultSettings);
-  const updateSettings = (settings: Settings) => {
-    setSettings(settings);
+
+  useEffect(() => {
+    getSettings().then((s) => setSettings(s));
+  }, []);
+
+  const updateSettings = async (settings: Settings) => {
+    try {
+      await setDoc(doc(db, 'settings', '4VotbNdMDI1TcNr13CLu'), settings);
+      getSettings().then((s) => setSettings(s));
+      toast.success('Eintrag gespeichert!');
+    } catch (error) {
+      toast.error(
+        `Einstellungen konnten nicht gespeichert werden. Fehler: ${error}`
+      );
+    }
   };
 
   return (
