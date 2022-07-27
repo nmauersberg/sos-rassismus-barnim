@@ -7,6 +7,7 @@ import {
   getFirestore,
   setDoc,
 } from 'firebase/firestore';
+import { toast } from 'react-hot-toast';
 
 const db = getFirestore(firebase);
 const addEntry = async (section: Omit<Section, 'id'>) => {
@@ -14,17 +15,8 @@ const addEntry = async (section: Omit<Section, 'id'>) => {
 };
 
 const updateEntry = async (section: Section) => {
-  section.render = section.render.map((e) => {
-    switch (e.collection) {
-      case 'sectionsText':
-        e.edit = false;
-      default:
-        console.log(e);
-        return e;
-    }
-  });
-
   await setDoc(doc(db, 'sections', section.id), section);
+  toast.success('Sektion gespeichert!');
 };
 
 export const updateSection = async (section: Section) => {

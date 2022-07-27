@@ -11,6 +11,7 @@ import {
 } from '@mdi/js';
 import { updateSection } from './updateSection';
 import { EditIcon } from './EditIcon';
+import classNames from 'classnames';
 
 type EditSectionProps = {
   modifiedSection: Section;
@@ -41,8 +42,8 @@ export const EditSection = ({
 
   return (
     <>
-      <div className={s.editSection}>
-        <div className='pageWidth flex line-normal'>
+      <div className={s.sectionEditBar}>
+        <div className={classNames(s.editSection, 'line-normal pageWidth')}>
           <EditIcon
             path={mdiDockLeft}
             action={() => updateSectionLayout('25-75')}
@@ -87,7 +88,20 @@ export const EditSection = ({
 
           <EditIcon
             path={mdiContentSaveOutline}
-            action={() => updateSection(modifiedSection)}
+            action={() => {
+              // Close open text editors
+              const closedEditors = {
+                ...modifiedSection,
+                render: modifiedSection.render.map((element) => {
+                  if (element.collection === 'sectionsText') {
+                    delete element.edit;
+                  }
+                  return element;
+                }),
+              };
+              setModifiedSection(closedEditors);
+              updateSection(modifiedSection);
+            }}
             size={1.25}
             rotate={0}
             tooltip='Speichern'

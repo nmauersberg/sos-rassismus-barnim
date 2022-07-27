@@ -55,10 +55,17 @@
   @include mobile-width;
 }
 
-.editSection {
+.sectionEditBar {
   background: white;
   height: 2.15rem;
   border: 1px dashed black;
+  margin: 0 auto;
+}
+
+.editSection {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.5rem;
 }
 
 .editElement {
@@ -68,6 +75,8 @@
   border: 1px dashed black;
   margin-bottom: 1rem;
   display: flex;
+  padding: 0.15rem;
+  gap: 0.5rem;
 }
 
 .dropdown {
@@ -96,6 +105,7 @@
 
 .dropdownEditRow:hover .dropdownEditRowContent {
   display: flex;
+  gap: 0.5rem;
 }
 
 .dropdownEditRowContent {
@@ -105,7 +115,7 @@
   min-width: 8rem;
   box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
   z-index: 1;
-  margin-top: -0.25rem;
+  margin-top: -0.55rem;
 }
 
 .optionButton {
@@ -115,7 +125,7 @@
   text-align: left;
 
   &:hover {
-    font-weight: 600;
+    padding: 1rem;
   }
 }
 

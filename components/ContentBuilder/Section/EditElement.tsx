@@ -181,6 +181,7 @@ export const EditElement = ({
           size={1.25}
           rotate={0}
           tooltip='Text bearbeiten'
+          flipHorizontal
         />
       )}
     </div>
