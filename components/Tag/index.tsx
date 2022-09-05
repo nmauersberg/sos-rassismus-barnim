@@ -11,6 +11,7 @@ export const tagColors: TagColor[] = [
   '#FF8600',
   '#363537',
   '#071013',
+  '#9c5e2f',
 ];
 
 export type TagColor =
@@ -23,7 +24,8 @@ export type TagColor =
   | '#A188A6'
   | '#FF8600'
   | '#363537'
-  | '#071013';
+  | '#071013'
+  | '#9c5e2f';
 
 type TagProps = {
   label: string;

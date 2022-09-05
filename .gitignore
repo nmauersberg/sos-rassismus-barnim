@@ -39,4 +39,4 @@ yarn-error.log*
 
 
 # Backup
-backup.json
+*backup.json
