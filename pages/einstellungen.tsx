@@ -13,6 +13,8 @@ import Switch from 'react-switch';
 import { AuthContext } from '../context/AuthContext';
 import { Tag, TagColor, tagColors } from '../components/Tag';
 import { Dropdown } from '../components/Layout/Header/Dropdown';
+import { downloadBlob } from '../backup/backup-data';
+import { _Entry } from '../components/Timeline/Entry';
 
 const auth = getAuth(firebase);
 
@@ -42,6 +44,12 @@ const Settings = () => {
       <SectionWrapper title='Kategorien' colorScheme='colorSchemeWhite'>
         <SectionContent>
           <EditCategories />
+        </SectionContent>
+      </SectionWrapper>
+
+      <SectionWrapper title='Backup Manager' colorScheme='colorSchemeBlack'>
+        <SectionContent>
+          <BackupManager />
         </SectionContent>
       </SectionWrapper>
     </>
@@ -232,6 +240,72 @@ const ColorDot = ({ color }: { color: TagColor }) => {
         borderRadius: '50%',
       }}
     />
+  );
+};
+
+const BackupManager = () => {
+  // Setings
+  const { settings } = useContext(SettingsContext);
+
+  // Timeline entries
+  const [entries] = useCollection(
+    collection(getFirestore(firebase), 'entries'),
+    {
+      snapshotListenOptions: { includeMetadataChanges: true },
+    }
+  );
+  const [mappedEntries, setMappedEntries] = useState<_Entry[]>([]);
+
+  useEffect(() => {
+    if (!entries) return;
+
+    const raw = entries.docs.map((entry, index) => {
+      return { id: entry.id, ...entry.data() } as _Entry;
+    });
+    const sorted = raw.sort(
+      (a, b) => a.date.toDate().getTime() - b.date.toDate().getTime()
+    );
+    setMappedEntries(sorted);
+  }, [entries]);
+
+  // Pages
+  const [documents, loading, error] = useCollection(
+    collection(getFirestore(firebase), 'sections'),
+    {
+      snapshotListenOptions: { includeMetadataChanges: true },
+    }
+  );
+  const sections = documents
+    ? documents.docs.map((doc) => {
+        const data = doc.data();
+        return {
+          ...data,
+          id: doc.id,
+        } as Section;
+      })
+    : null;
+
+  const downloadBackup = () => {
+    const blob = new Blob(
+      [
+        JSON.stringify({
+          settings,
+          pageSections: sections,
+          timeline: mappedEntries,
+        }),
+      ],
+      {
+        type: 'application/json',
+      }
+    );
+    downloadBlob(blob);
+  };
+
+  return (
+    <>
+      <p>Backup aller Daten in einer Datei:</p>
+      <button onClick={() => downloadBackup()}>Backup herunterladen</button>
+    </>
   );
 };
 
