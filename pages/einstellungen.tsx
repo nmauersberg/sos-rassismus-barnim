@@ -146,7 +146,7 @@ const EditCategories = () => {
       <div>
         {categories.map((category: Category, index: number) => {
           return (
-            <Category
+            <CategoryComponent
               key={category.value}
               category={category}
               index={index}
@@ -172,13 +172,17 @@ const EditCategories = () => {
   );
 };
 
-type CategoryProps = {
+type CategoryComponentProps = {
   category: Category;
   index: number;
   updateSettings: (cat: Category, index: number) => void;
 };
 
-const Category = ({ category, index, updateSettings }: CategoryProps) => {
+const CategoryComponent = ({
+  category,
+  index,
+  updateSettings,
+}: CategoryComponentProps) => {
   const [editCategory, setEditCategory] = useState(
     category.value.substring(0, 7) === 'unsaved' ? true : false
   );
